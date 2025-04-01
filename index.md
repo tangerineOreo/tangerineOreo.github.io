@@ -1,6 +1,6 @@
 ---
 
-site.title: J L
+site.name: J L
 
 ---
 
