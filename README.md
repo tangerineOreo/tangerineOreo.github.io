@@ -1,3 +1,4 @@
+
 I'm Junping Li, MS and RA in Marine Science at Nezha Lab, Shanghai Jiao Tong University, and BE in Automation (EECS) at Ocean University of China. I used to study cybernetics of hybrid aerial underwater vehicle (HAUV) at Nezha Lab, Shanghai Jiao Tong University, advised by Prof. Zheng Zeng. During my university years, I was awarded: Outstanding Student, Outstanding Graduate, Study First Class Scholarship, and Practice Scholarship; I participated in Internet plus Innovation and Entrepreneurship Competition and Provincial University Robot Competition, and won the outstanding prize awards.
 
 My background covers cybernetics, system and control theory, machine learning, vehicle dicision planning, system identification, I learn and enjoy learning knowledge, causal inference, from CNN/RNN to transformer to multimodal to what, game theory and others. Due to cybernetics, I am very interested in cognitive science and psychology, such as in language, causality, society and communication, and hope to combine cybernetics, AI and psychology to propose novel ideas, frameworks and theories, and make the contributions to the world we live in.
@@ -25,7 +26,6 @@ Cross domain strategy to address the convergence problem of HAUV control caused 
 *T Wei, **J Li**, Z Zeng, et al. Trans-media resistance investigation of hybrid aerial underwater vehicle base on hydrodynamic experiments and machine learning. Ocean Engineering, 2022.*
 
 Invention patent CN202110217870.4; HAUV experiments with various physics variables; Key mechanism of HAUV with multivariate analysis by neural networks
-
 
 
 
