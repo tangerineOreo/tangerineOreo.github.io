@@ -1,8 +1,6 @@
 ---
 
-title: Junping Li
-
-description: xxx
+name: xxx
 
 ---
 
