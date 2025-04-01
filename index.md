@@ -1,6 +1,6 @@
 ---
 
-name: xxx
+site_name: xxx
 
 ---
 
