@@ -1,6 +1,6 @@
 ---
 
-site.name: J L
+title: About
 
 ---
 
@@ -34,6 +34,16 @@ Cross domain strategy to address the convergence problem of HAUV control caused 
 
 Invention patent CN202110217870.4; HAUV experiments with various physics variables; Key mechanism of HAUV with multivariate analysis by neural networks
 
+
+
 <!--
-<script>document.title = "J L";document.querySelector('h1').innerHTML = 'HP';</script>
+<script>document.title = "J L";</script>
 -->
+
+<!--
+<script>document.querySelector('h1').innerHTML = 'J L';</script>
+-->
+
+
+
+
