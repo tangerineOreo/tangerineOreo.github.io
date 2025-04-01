@@ -4,9 +4,11 @@ I'm Junping Li, MS and RA in Marine Science at Nezha Lab, Shanghai Jiao Tong Uni
 
 My background covers cybernetics, system and control theory, machine learning, vehicle dicision planning, system identification, I learn and enjoy learning knowledge, causal inference, from CNN/RNN to transformer to multimodal to what, game theory and others. Due to cybernetics, I am very interested in cognitive science and psychology, such as in language, causality, society and communication, and hope to combine cybernetics, AI and psychology to propose novel ideas, frameworks and theories, and make the contributions to the world we live in.
 
+<!--
 <div align="center">
   <img src="./pic/sh.jpg" alt=" " style="width: 40%; height: auto;">
 </div>
+-->
 
 ### Research Experiences
 
