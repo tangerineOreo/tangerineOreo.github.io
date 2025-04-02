@@ -16,13 +16,13 @@ My background covers cybernetics, system and control theory, machine learning, v
 
 **Nonlinear Control and Deep Reinforcement Learning of HAUV**<br>
 
-***J Li**, H Zhou, D Lu, et al. Nonlinear and reinforcement learning control for motion of hybrid aerial underwater vehicle. Neural Computing and Applications, 2024.*<br>
+***J Li**, H Zhou, D Lu, et al. Nonlinear and reinforcement learning control for motion of hybrid aerial underwater vehicle. Neural Computing and Applications, 2024.*
 
 3-D space motion model; Key issues: disturbance and uncertainty, cross medium, control constraint; Nonlinear control including robustness, adaptation and fuzzy logic; Deep reinforcement learning of HAUV by deterministic policy, neural networks and temporal difference learning
 
 **HAUV Cross Domain Strategy, Factors and Conditions**
 
-***J Li**, Y Jin, R Hu, et al. Trajectory tracking control of fixed-wing hybrid aerial underwater vehicle subject to wind and wave disturbances. Journal of Intelligent & Robotic Systems, 2024.*<br>
+***J Li**, Y Jin, R Hu, et al. Trajectory tracking control of fixed-wing hybrid aerial underwater vehicle subject to wind and wave disturbances. Journal of Intelligent & Robotic Systems, 2024.*
 
 Cross domain strategy to address the convergence problem of HAUV control caused by the large change in the medium transition; Key factors and conditions of the cross medium; Critical relations and feasible domains of the factors that HAUV control conditions must meet
 
@@ -31,6 +31,13 @@ Cross domain strategy to address the convergence problem of HAUV control caused 
 *T Wei, **J Li**, Z Zeng, et al. Trans-media resistance investigation of hybrid aerial underwater vehicle base on hydrodynamic experiments and machine learning. Ocean Engineering, 2022.*
 
 Invention patent CN202110217870.4; HAUV experiments with various motion states; Key mechanism of HAUV with multivariate analysis by neural networks
+
+### Contact
+Email: ljp.id [at] sjtu.edu.cn <br>
+Web: junpingli.com <br>
+Address: Shanghai Jiao Tong University, 800 Dongchuan Road, Shanghai 200240
+
+
 
 
 
