@@ -24,7 +24,7 @@ My background covers cybernetics, system and control theory, machine learning, v
 
 ***J Li**, Y Jin, R Hu, et al. Trajectory tracking control of fixed-wing hybrid aerial underwater vehicle subject to wind and wave disturbances. Journal of Intelligent & Robotic Systems, 2024.*<br>
 
-Cross domain strategy to address the convergence problem of HAUV control caused by the large change in the medium transition; Key factors and conditions of the cross medium; Critical relations and feasible domains of the factors that HAUV control condition must meet
+Cross domain strategy to address the convergence problem of HAUV control caused by the large change in the medium transition; Key factors and conditions of the cross medium; Critical relations and feasible domains of the factors that HAUV control conditions must meet
 
 **Phenomena and Mechanisms of HAUV with Experiments and Neural Networks**
 
