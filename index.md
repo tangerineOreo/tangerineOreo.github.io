@@ -32,6 +32,10 @@ Cross domain strategy to address the convergence problem of CDV control caused b
 
 Invention patent CN202110217870.4; CDV experiments with various motion states; Key mechanism of CDV with multivariate analysis by neural networks
 
+#### Academic Services
+
+Neural Computing and Applications, ICRA, IROS
+
 ### Contact
 Email: ljp.id [at] sjtu.edu.cn <br>
 Web: junpingli.com <br>
