@@ -30,7 +30,7 @@ Cross domain strategy to address the convergence problem of CEV/HAUV control cau
 
 *T Wei, **Junping Li**, Z Zeng, et al. Trans-media resistance investigation of hybrid aerial underwater vehicle base on hydrodynamic experiments and machine learning. Ocean Engineering, 2022.*
 
-Invention patent CN202110217870.4; CEV/HAUV experiments with various motion states; Key mechanism of CEV/HAUV with multivariate analysis by neural networks
+Invention patent CN202110217870.4; Cross environment experiments of CEV/HAUV with various motion states; Key mechanism of CEV/HAUV with multivariate analysis by neural networks
 
 #### Academic Services
 
