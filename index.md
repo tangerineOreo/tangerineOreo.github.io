@@ -16,19 +16,19 @@ My background covers cybernetics, system and control theory, machine learning, v
 
 **Nonlinear Control and Deep Reinforcement Learning of CEV/HAUV**<br>
 
-***Junping Li**, H Zhou, D Lu, et al. Nonlinear and reinforcement learning control for motion of hybrid aerial underwater vehicle. Neural Computing and Applications, 2024.*
+***Junping Li**, H Zhou, D Lu, et al. Nonlinear and reinforcement learning control for motion of hybrid aerial underwater vehicle. Neural Computing and Applications, 2024, 12.*
 
 3-D space motion model; Key issues: disturbance and uncertainty, cross environment, control constraint; Nonlinear control including robustness, adaptation and fuzzy logic; Deep reinforcement learning of CEV/HAUV by deterministic policy, neural networks and temporal difference learning
 
 **CEV/HAUV Cross Domain Strategy, Factors and Conditions**
 
-***Junping Li**, Y Jin, R Hu, et al. Trajectory tracking control of fixed-wing hybrid aerial underwater vehicle subject to wind and wave disturbances. Journal of Intelligent & Robotic Systems, 2024.*
+***Junping Li**, Y Jin, R Hu, et al. Trajectory tracking control of fixed-wing hybrid aerial underwater vehicle subject to wind and wave disturbances. Journal of Intelligent & Robotic Systems, 2024, 6.*
 
 Cross domain strategy to address the convergence problem of CEV/HAUV control caused by the large change in the environment transition; Key factors and conditions of the cross environment; Critical relations and feasible domains of the factors that CEV/HAUV motion or control conditions must meet
 
 **Phenomena and Mechanisms of CEV/HAUV with Experiments and Learning**
 
-*T Wei, **Junping Li**, Z Zeng, et al. Trans-media resistance investigation of hybrid aerial underwater vehicle base on hydrodynamic experiments and machine learning. Ocean Engineering, 2022.*
+*T Wei, **Junping Li**, Z Zeng, et al. Trans-media resistance investigation of hybrid aerial underwater vehicle base on hydrodynamic experiments and machine learning. Ocean Engineering, 2022, 12.*
 
 Invention patent CN202110217870.4; Cross environment experiments of CEV/HAUV with various motion states; Key mechanism of CEV/HAUV with multivariate analysis by neural networks
 
