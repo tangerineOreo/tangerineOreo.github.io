@@ -9,7 +9,7 @@ I'm Junping Li, MS in Marine Science at Shanghai Jiao Tong University, and BE in
 My background covers cybernetics, system and control theory, machine learning, vehicle decision planning, and robotics, I learn and like to learn new knowledge, causal inference, game theory or others. Due to cybernetics and AI, I develop interested in cognition, such as in mind, language, behavior, or society, and hope to combine cybernetics, AI and psychology to propose new ideas and theories, and they can be applied to the development of human, society and robotic systems, and make contributions to the world we live in.
 
 <div align="center">
-  <img src="./pic/sh.jpg" alt=" " style="width: 40%; height: auto;">
+  <img src="./pic/sh.jpg" alt=" " style="width: 50%; height: auto;">
 </div>
 
 ### Research Experiences
