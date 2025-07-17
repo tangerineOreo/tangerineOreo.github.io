@@ -6,7 +6,7 @@ title: About
 
 I'm Junping Li, MS in Marine Science at Shanghai Jiao Tong University and BE in Automation (EECS) at Ocean University of China. I studied cybernetics of cross environment vehicle (CEV) or hybrid aerial underwater vehicle (HAUV) at Shanghai Jiao Tong University, such as factor, condition, control strategy and deep reinforcement learning, advised by Prof. Zheng Zeng. During my university years, I was awarded Outstanding Student, Outstanding Graduate, Study First Class Scholarship and Practice Scholarship.
 
-My background covers cybernetics, system and control theory, machine learning, vehicle decision planning, and robotics, I learn and like to learn new knowledge, causal inference, game theory or others. Due to cybernetics and AI, I develop interested in cognition, such as in mind, language, behavior, or society, and hope to combine cybernetics, AI and psychology to propose new ideas and theories, and they can be applied to the development of human, society and robotic systems, and make contributions to the world we live in.
+My background covers cybernetics, system and control theory, machine learning, vehicle decision planning, and robotics, I learn and like to learn new knowledge, causal inference, game theory or others. Due to cybernetics and AI, I develop interested in cognition, such as in mind, language, behavior, or society, and hope to combine cybernetics, AI and psychology to propose new ideas, theories and works, and they can be applied to the development of human, society and robotic systems, and make contributions to the world we live in.
 
 <div align="center">
   <img src="./pic/sh.jpg" alt=" " style="width: 40%; height: auto;">
@@ -22,7 +22,7 @@ My background covers cybernetics, system and control theory, machine learning, v
 
 **CEV/HAUV Cross Domain Strategy, Factors and Conditions**
 
-***Junping Li**, Y Jin, R Hu, et al. Trajectory tracking control of fixed-wing hybrid aerial underwater vehicle subject to wind and wave disturbances. Journal of Intelligent & Robotic Systems, 2024.*
+***Junping Li**, Y Jin, R Hu, et al. Trajectory tracking control of hybrid aerial underwater vehicle subject to wind and wave disturbances. Journal of Intelligent & Robotic Systems, 2024.*
 
 Proposed a cross domain strategy to address the convergence problem of CEV/HAUV control caused by the large change in the environment transition; Key factors and conditions of the cross environment; Critical relations and feasible domains of the factors that CEV/HAUV motion or control conditions need to meet.
 
