@@ -18,7 +18,7 @@ My background covers cybernetics, system and control theory, machine learning, v
 
 ***Junping Li**, H Zhou, D Lu, et al. Nonlinear and reinforcement learning control for motion of hybrid aerial underwater vehicle. Neural Computing and Applications, 2024.*
 
-Proposed a 3-D space cross model; Key issues: disturbance and uncertainty, cross environment, constraint of environment difference; Proposed a nonlinear control with robustness, adaptation and fuzzy logic; Deep reinforcement learning of CEV/HAUV by deterministic policy, neural networks and temporal difference learning; Different methods in the tracking cases of three key issues.
+Proposed a 3-D space cross model; Key issues: disturbance and uncertainty, cross environment, constraint of environment difference; Nonlinear control laws with robustness, adaptation and fuzzy logic; Deep reinforcement learning of CEV/HAUV by deterministic policy, neural networks and temporal difference learning; Different methods in the tracking cases of three key issues.
 
 **CEV/HAUV Cross Domain Strategy, Factors and Conditions**
 
