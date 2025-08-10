@@ -12,7 +12,7 @@ My background covers cybernetics, system and control theory, machine learning, v
   <img src="./pic/sh.jpg" alt=" " style="width: 40%; height: auto;">
 </div>
 
-### Research Experiences
+### Research Experiences and Publications
 
 **Nonlinear Control and Deep Reinforcement Learning of CEV/HAUV**<br>
 
@@ -24,7 +24,7 @@ Proposed a 3-D space cross model; Key issues: disturbance and uncertainty, cross
 
 ***Junping Li**, Y Jin, R Hu, et al. Trajectory tracking control of hybrid aerial underwater vehicle subject to wind and wave disturbances. Journal of Intelligent & Robotic Systems, 2024.*
 
-Proposed a cross domain strategy to address the convergence problem of CEV/HAUV control caused by the large change in the environment transition; Key factors and conditions of the cross environment; Critical relations and feasible domains of the factors that CEV/HAUV motion or control conditions need to meet.
+Proposed a cross domain strategy to address the convergence problem of CEV/HAUV control caused by the large change in the environment transition; Key factors and conditions of the cross environment; Critical relations and feasible domains of the factors that CEV/HAUV control conditions need to meet.
 
 **Phenomena and Mechanisms of CEV/HAUV with Experiments and Learning**
 
