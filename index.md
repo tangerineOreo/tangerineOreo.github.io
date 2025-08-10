@@ -12,7 +12,7 @@ My background covers cybernetics, system and control theory, machine learning, v
   <img src="./pic/sh.jpg" alt=" " style="width: 40%; height: auto;">
 </div>
 
-### Research Experiences and Publications
+### Research Experiences & Publications
 
 **Nonlinear Control and Deep Reinforcement Learning of CEV/HAUV**<br>
 
