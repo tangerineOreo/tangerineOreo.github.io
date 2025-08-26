@@ -4,15 +4,21 @@ title: About
 
 ---
 
-I'm Junping Li, MS in Marine Science at Shanghai Jiao Tong University and BE in Automation (EECS) at Ocean University of China. I studied cybernetics of cross environment vehicle (CEV) or hybrid aerial underwater vehicle (HAUV) at Shanghai Jiao Tong University, such as factor, condition, control strategy and deep reinforcement learning, advised by Prof. Zheng Zeng. During my university years, I was awarded Outstanding Student, Outstanding Graduate, Study First Class Scholarship and Practice Scholarship.
+I'm Junping Li, MS in Marine Science at Shanghai Jiao Tong University and BE in Automation (EECS) at Ocean University of China. I studied training and application of large models for language, multimodal and agent at Institute of Automation, Chinese Academy of Sciences, and cybernetics of cross environment vehicle (CEV) or hybrid aerial underwater vehicle (HAUV) at Shanghai Jiao Tong University, such as factor, condition, control strategy and deep reinforcement learning, advised by Prof. Zheng Zeng. During my university years, I was awarded Outstanding Student, Outstanding Graduate, Study First Class Scholarship and Practice Scholarship.
 
-My background covers cybernetics, system and control theory, machine learning, vehicle decision planning, and robotics, I learn and like to learn new knowledge, causal inference, game theory or others. Due to cybernetics and AI, I develop interested in cognition, such as in mind, language, behavior, or society, and hope to combine cybernetics, AI and psychology to propose new ideas, theories and works, and they can be applied to the development of human, society and robotic systems, and make contributions to the world we live in.
+My background covers cybernetics, system and control theory, machine learning, large models, vehicle decision planning, and robotics, I learn and like to learn new knowledge, causal inference, game theory or others. Due to cybernetics and AI, I develop interested in cognition, such as in mind, language, behavior, or society, and hope to combine cybernetics, AI and psychology to propose new ideas, theories and works, and they can be applied to the development of human, society and robotic systems, and make contributions to the world we live in.
 
 <div align="center">
   <img src="./pic/sh.jpg" alt=" " style="width: 40%; height: auto;">
 </div>
 
 ### Research Experiences & Publications
+
+**Training and Application of Language and Multimodal Large Model and Agent**
+
+*Institute of Automation, Chinese Academy of Sciences*
+
+Trained tokenizer, pre training and fine tuning for large language model; Based on Qwen and SigLIP, pre training to fine tuning for multimodal large model; Model inference, knowledge base establishment and retrieval-augmented generation; Built agents by models and function calling.
 
 **Nonlinear Control and Deep Reinforcement Learning of CEV/HAUV**<br>
 
