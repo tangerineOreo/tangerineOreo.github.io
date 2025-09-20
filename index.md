@@ -18,21 +18,21 @@ My background covers cybernetics, system and control theory, machine learning, l
 
 *AI Institute, Shanghai Jiao Tong University, and Institute of Automation, Chinese Academy of Sciences*
 
-Trained tokenizer, pre training and fine tuning for large language model; Based on Qwen and SigLIP, pre training to fine tuning for multimodal large model; Model inference, knowledge base establishment and retrieval-augmented generation; Built agents by models and function calling.
+Trained tokenizer, pre training and supervised fine tuning (SFT) for large language model; Based on Qwen and SigLIP, pre training to SFT for multimodal large model; Model inference, established the knowledge base and conducted the retrieval-augmented generation; Built the agents by models and function calling.
 
 **Nonlinear Control and Deep Reinforcement Learning of CEV/HAUV**<br>
 
 ***Junping Li**, H Zhou, D Lu, et al. Nonlinear and reinforcement learning control for motion of hybrid aerial underwater vehicle. Neural Computing and Applications, 2024.*
 
-Proposed a 3-D space cross model; Key issues: disturbance and uncertainty, cross environment, constraint of environment difference; Nonlinear control laws with robustness, adaptation and fuzzy logic; Deep reinforcement learning of CEV/HAUV by deterministic policy, neural networks and temporal difference learning; Different methods in the tracking cases of three key issues.
+Proposed a 3-D space cross model; Key issues: uncertainty, cross environment, constraint of environment difference; Nonlinear control laws with robustness, adaptation and fuzzy logic; Deep reinforcement learning of CEV by deterministic policy, neural networks and temporal difference learning; Various methods in the tracking cases of issues.
 
-**CEV/HAUV Cross Domain Strategy, Factors and Conditions**
+**Cross Domain Strategy, Factors and Conditions**
 
 ***Junping Li**, Y Jin, R Hu, et al. Trajectory tracking control of hybrid aerial underwater vehicle subject to wind and wave disturbances. Journal of Intelligent & Robotic Systems, 2024.*
 
-Proposed a strategy to address the convergence problem of CEV control caused by the large change of environment transition; Explored the Key factors and conditions of the cross environment in the various scenarios; Obtained the critical relations and feasible domains of the factors that control conditions need to meet.
+Proposed a strategy to address the convergence problem of CEV control caused by the large change of environment transition; Key factors and conditions of the cross environment in the various scenarios; Critical relations and feasible domains of the factors that control conditions need to meet.
 
-**Phenomena and Mechanisms of CEV/HAUV with Experiments and Learning**
+**Phenomena and Mechanisms of CE with Experiments and Learning**
 
 *T Wei, **Junping Li**, Z Zeng, et al. Trans-media resistance investigation of hybrid aerial underwater vehicle base on hydrodynamic experiments and machine learning. Ocean Engineering, 2022.*
 
