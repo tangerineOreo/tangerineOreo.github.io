@@ -30,7 +30,7 @@ Proposed a 3-D space cross model; Key issues: uncertainty, cross environment, co
 
 ***Junping Li**, Y Jin, R Hu, et al. Trajectory tracking control of hybrid aerial underwater vehicle subject to wind and wave disturbances. Journal of Intelligent & Robotic Systems, 2024.*
 
-Proposed a strategy to address the convergence problem of CEV control caused by the large change of environment transition; Key factors and conditions of the cross environment in the various scenarios; Critical relations and feasible domains of the factors that control conditions need to meet.
+Proposed a strategy to address the control convergence problem caused by the large change of environment transition; Key factors and conditions of the cross environment in the various scenarios with multiple variables; Critical relations and feasible domains of the factors that control conditions need to meet.
 
 **Phenomena and Mechanisms of CE with Experiments and Learning**
 
