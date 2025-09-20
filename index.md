@@ -30,13 +30,13 @@ Proposed a 3-D space cross model; Key issues: disturbance and uncertainty, cross
 
 ***Junping Li**, Y Jin, R Hu, et al. Trajectory tracking control of hybrid aerial underwater vehicle subject to wind and wave disturbances. Journal of Intelligent & Robotic Systems, 2024.*
 
-Proposed a cross domain strategy to address the convergence problem of CEV/HAUV control caused by the large change in the environment transition; Key factors and conditions of the cross environment; Critical relations and feasible domains of the factors that CEV/HAUV control conditions need to meet.
+Proposed a strategy to address the convergence problem of CEV control caused by the large change of environment transition; Explored the Key factors and conditions of the cross environment in the various scenarios; Obtained the critical relations and feasible domains of the factors that control conditions need to meet.
 
 **Phenomena and Mechanisms of CEV/HAUV with Experiments and Learning**
 
 *T Wei, **Junping Li**, Z Zeng, et al. Trans-media resistance investigation of hybrid aerial underwater vehicle base on hydrodynamic experiments and machine learning. Ocean Engineering, 2022.*
 
-Established the experiment platform, invention patent CN202110217870.4; Operated the cross environment experiments of CEV/HAUV with various motion states; Provided the support for key mechanisms of CEV/HAUV by multivariate analysis and neural networks.
+Built the experiment platform, invention patent CN202110217870.4; Operated the cross environment experiments of CEV with various states; Obtained the key mechanisms and coefficients by multivariate analysis and neural networks.
 
 #### Academic Services
 
