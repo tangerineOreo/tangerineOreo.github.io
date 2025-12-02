@@ -16,7 +16,7 @@ My background covers cybernetics, system and control theory, machine learning, t
 
 **Mapping Nonlinearity of Language and Modal Space with Large Model and Agent**
 
-*AI Institute, Shanghai Jiao Tong University, and Institute of Automation, Chinese Academy of Sciences*
+*AI Institute, Shanghai Jiao Tong University, and Institute of Automation, Chinese Academy of Sciences, 2025*
 
 Designed a modal space network, built, trained, and tuned the model based on LLaMA and transformers by RMS norm, KV cache and grouped query attention; Modal space alignment training with nonlinear mapping and fine tuning based on Qwen and SigLIP; Comparison of training effects about multiple mappings.
 
