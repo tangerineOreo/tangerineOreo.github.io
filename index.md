@@ -23,9 +23,9 @@ title: About
 </script>
 
 
-I'm Junping Li, MS in Marine Science at Shanghai Jiao Tong University and BE in Automation (EECS) at Ocean University of China. I studied mapping nonlinearity of language and modal space with large model at AI Institute, Shanghai Jiao Tong University, and cybernetics & learning of cross environment vehicle (CEV) or hybrid aerial underwater vehicle (HAUV), such as factor, condition, control strategy and deep reinforcement learning, at Shanghai Jiao Tong University, advised by Prof. Zheng Zeng. During my university years, I was awarded Outstanding Student, Outstanding Graduate, Academic Excellence Scholarship and Practice Scholarship.
+I'm Junping Li, MS in Marine Science at Shanghai Jiao Tong University and BE in Automation (EECS) at Ocean University of China. I studied large model and applications at AI Institute, Shanghai Jiao Tong University, and cybernetics & deep learning of cross environment vehicle, such as factor, condition, control strategy and deep reinforcement learning, at Shanghai Jiao Tong University. During my university years, I was awarded Outstanding Student, Outstanding Graduate, Academic Excellence Scholarship and Practice Scholarship.
 
-My background covers cybernetics, system and control theory, machine learning, transformer and large models, vehicle decision planning, and robotics, I learn and like to learn knowledge, causal inference, cognitive science, game theory and others. Due to cybernetics and AI, I develop interested in such as mind, cognition, language, behavior, society, and sometimes I might think a few questions: human non Bayesian or non scientific cognition but enough natural/effective, rule learning that we in most cases are based on rules and fuzzy logic, with explainable expression, abstract physiology and network compatibility, and cognition embedding/empowerment for something. I hope to combine cybernetics, AI, psychology, linguistics and multiple disciplines to propose new ideas, theories and works, and they can be applied to the development of human and society, and make contributions to the world we live in.
+My research focuses on model training, inference and agent, mapping nonlinearity of semantic and modal space, interaction of multiple models in space. I have been learning and enjoy acquiring new knowledge, such as AI new tech, linguistics, causal inference, cognitive science, game theory and so on, also interested in such as mind, cognition, language, society, sometimes a few questions: human non Bayesian or non scientific cognition but enough natural/effective, fuzzy learning that we in most cases are based on rules and fuzzy logic, with explainable expression, abstract physiology and network compatibility, and social interaction or communication. I hope to combine AI, psychology, linguistics and multiple disciplines to propose new ideas, theories and works, and they can be applied to the development of human and society, and make contributions to the world we live in.
 
 <div align="center">
   <img src="./pic/sh.jpg" alt=" " style="width: 40%; height: auto;">
@@ -57,9 +57,9 @@ Proposed a strategy to address the control convergence problem caused by the lar
 
 Built the experiment platform, invention patent CN202110217870.4; Operated the cross environment experiments of CEV with various states; Obtained the key mechanisms and coefficients by multivariate analysis and neural networks.
 
-**Tools** 
+**Skills** 
 
-C/C++, Matlab & Simulink, Python, PyTorch, LaTeX, TensorBoard, OpenBayes
+C/C++, Matlab & Simulink, Python, LaTeX, PyTorch, TensorBoard, OpenBayes, Transformers, Pre-training, Continual training, MoE, Fine tuning, PEFT, LoRA, unsloth, llama-factory, RLHF, DPO, PPO, GRPO, trl, RAG, llamaindex, Agent, Multimodal, Distributed parallel, Accelerate, Deepspeed, Training & inference optimization, FastAPI, vllm, Quantization, Distillation
 
 #### Academic Services
 
