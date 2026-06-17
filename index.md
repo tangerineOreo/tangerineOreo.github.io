@@ -4,6 +4,25 @@ title: About
 
 ---
 
+
+<style>
+  .container-lg {
+    max-width: 860px !important;
+  }
+</style>
+
+
+<script>
+  const h1 = document.querySelector('h1');
+  if (h1) {
+    const text = h1.textContent;
+    const h3 = document.createElement('h3');
+    h3.textContent = text;
+    h1.parentNode.replaceChild(h3, h1);
+  }
+</script>
+
+
 I'm Junping Li, MS in Marine Science at Shanghai Jiao Tong University and BE in Automation (EECS) at Ocean University of China. I studied mapping nonlinearity of language and modal space with large model at AI Institute, Shanghai Jiao Tong University, and cybernetics & learning of cross environment vehicle (CEV) or hybrid aerial underwater vehicle (HAUV), such as factor, condition, control strategy and deep reinforcement learning, at Shanghai Jiao Tong University, advised by Prof. Zheng Zeng. During my university years, I was awarded Outstanding Student, Outstanding Graduate, Academic Excellence Scholarship and Practice Scholarship.
 
 My background covers cybernetics, system and control theory, machine learning, transformer and large models, vehicle decision planning, and robotics, I learn and like to learn knowledge, causal inference, cognitive science, game theory and others. Due to cybernetics and AI, I develop interested in such as mind, cognition, language, behavior, society, and sometimes I might think a few questions: human non Bayesian or non scientific cognition but enough natural/effective, rule learning that we in most cases are based on rules and fuzzy logic, with explainable expression, abstract physiology and network compatibility, and cognition embedding/empowerment for something. I hope to combine cybernetics, AI, psychology, linguistics and multiple disciplines to propose new ideas, theories and works, and they can be applied to the development of human and society, and make contributions to the world we live in.
