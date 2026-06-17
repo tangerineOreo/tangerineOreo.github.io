@@ -23,13 +23,14 @@ title: About
 </script>
 
 
-I'm Junping Li, MS in Marine Science at Shanghai Jiao Tong University and BE in Automation (EECS) at Ocean University of China. I studied large model and applications at AI Institute, Shanghai Jiao Tong University, and cybernetics & deep learning of cross environment vehicle, such as factor, condition, control strategy and deep reinforcement learning, at Shanghai Jiao Tong University. During my university years, I was awarded Outstanding Student, Outstanding Graduate, Academic Excellence Scholarship and Practice Scholarship.
+I'm Junping Li, MS in Marine Science at Shanghai Jiao Tong University and BE in Automation (EECS) at Ocean University of China. I study large model and applications at AI Institute, Shanghai Jiao Tong University, prior to this, I studied cybernetics & deep learning of cross environment vehicle, such as factor, condition, control strategy and deep reinforcement learning, at Shanghai Jiao Tong University. During my university years, I was awarded Outstanding Student, Outstanding Graduate, Academic Excellence Scholarship and Practice Scholarship.
 
-My research focuses on model training, inference and agent, mapping nonlinearity of semantic and modal space, interaction of multiple models in space. I have been learning and enjoy acquiring new knowledge, such as AI new tech, linguistics, causal inference, cognitive science, game theory and so on, also interested in such as mind, cognition, language, society, sometimes a few questions: human non Bayesian or non scientific cognition but enough natural/effective, fuzzy learning that we in most cases are based on rules and fuzzy logic, with explainable expression, abstract physiology and network compatibility, and social interaction or communication. I hope to combine AI, psychology, linguistics and multiple disciplines to propose new ideas, theories and works, and they can be applied to the development of human and society, and make contributions to the world we live in.
+My research focuses on model training, inference and agent, mapping nonlinearity of semantic and modal space, interaction of multiple models in space. I have been learning and enjoy acquiring new knowledge, such as AI new tech, linguistics, causal inference, cognitive science, game theory and so on, also interested in such as mind, cognition, language, society, sometimes thinking a few interesting questions: human non Bayesian or non scientific cognition but enough natural/effective, fuzzy learning that we in most cases are based on rules and fuzzy logic, with explainable expression and network compatibility, and social interaction or communication in abstract space. I hope to combine AI, psychology, linguistics and multiple disciplines to propose new ideas, theories and works, and they can be applied to the development of human and society, and make contributions to the world we live in.
 
 <div align="center">
   <img src="./pic/sh.jpg" alt=" " style="width: 40%; height: auto;">
 </div>
+
 
 ### Research Experiences & Publications
 
@@ -53,17 +54,20 @@ Proposed a strategy to address the control convergence problem caused by the lar
 
 **Phenomena and Mechanisms of CE with Experiments and Learning**
 
-*T Wei, **Junping Li**, Z Zeng, et al. Trans-media resistance investigation of hybrid aerial underwater vehicle base on hydrodynamic experiments and machine learning. Ocean Engineering, 2022.*
+*T Wei, **Junping Li**, Z Zeng, et al. Trans-media resistance investigation of hybrid aerial underwater vehicle base on hydrodynamic experiments and machine learning. OE, 2022.*
 
 Built the experiment platform, invention patent CN202110217870.4; Operated the cross environment experiments of CEV with various states; Obtained the key mechanisms and coefficients by multivariate analysis and neural networks.
 
-**Skills** 
 
-C/C++, Matlab & Simulink, Python, LaTeX, PyTorch, TensorBoard, OpenBayes, Transformers, Pre-training, Continual training, MoE, Fine tuning, PEFT, LoRA, unsloth, llama-factory, RLHF, DPO, PPO, GRPO, trl, RAG, llamaindex, Agent, Multimodal, Distributed parallel, Accelerate, Deepspeed, Training & inference optimization, FastAPI, vllm, Quantization, Distillation
+### Skills
 
-#### Academic Services
+C/C++, Matlab & Simulink, Python, LaTeX, PyTorch, TensorBoard, OpenBayes, Transformers, Datasets, Pre-training, Continued training, MoE, SFT/instruct, PEFT, LoRA, unsloth, llama-factory, RLHF/RLAIF, DPO, PPO, GRPO, trl, RAG, llamaindex, Agent, ReAct, CoT, ToT, planing and Reflection, MCP langchain/langgraph, Multi modal, Distributed parallel, Accelerate, Deepspeed, FastAPI, vllm, Quantization, Distillation
+
+
+### Academic Services
 
 Neural Computing and Applications, ICRA, IROS
+
 
 ### Contact
 Email: ljp.id [at] sjtu.edu.cn <br>
