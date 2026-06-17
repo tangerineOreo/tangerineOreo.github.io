@@ -32,17 +32,17 @@ My research focuses on model training, inference and agent, mapping nonlinearity
 </div>
 
 
-### Research Experiences & Publications
+### Projects & Publications
 
 **Mapping Nonlinearity of Language and Modal Space with Large Model**
 
-*AI Institute, Shanghai Jiao Tong University, and Institute of Automation, Chinese Academy of Sciences, 2025*
+*AI Institute, Shanghai Jiao Tong University, 2025*
 
 Designed a modal space network, built, trained, and tuned the model based on LLaMA and transformers by RMS norm, KV cache and grouped query attention; Modal space alignment training with nonlinear mapping and fine tuning based on Qwen and SigLIP; Comparison of training effects about multiple mappings.
 
 **Nonlinear Control and Deep Reinforcement Learning of CEV/HAUV**
 
-***Junping Li**, H Zhou, D Lu, et al. Nonlinear and reinforcement learning control for motion of hybrid aerial underwater vehicle. Neural Computing and Applications, 2024/2025.*
+***Junping Li**, H Zhou, D Lu, et al. Nonlinear and reinforcement learning control for motion of hybrid aerial underwater vehicle. Neural Computing and Applications, 2025.*
 
 Proposed a 3-D space cross model; Key issues: uncertainty, cross environment, constraint of environment difference; Nonlinear control laws with robustness, adaptation and fuzzy logic; Deep reinforcement learning of CEV by deterministic policy, neural networks and temporal difference learning; Various methods in the tracking cases of issues.
 
@@ -61,7 +61,7 @@ Built the experiment platform, invention patent CN202110217870.4; Operated the c
 
 ### Skills
 
-C/C++, Matlab & Simulink, Python, LaTeX, PyTorch, TensorBoard, OpenBayes, Transformers, Datasets, Pre-training, Continued training, MoE, SFT/instruct, PEFT, LoRA, unsloth, llama-factory, RLHF/RLAIF, DPO, PPO, GRPO, trl, RAG, llamaindex, Agent, ReAct, CoT, ToT, planing and Reflection, MCP langchain/langgraph, Multi modal, Distributed parallel, Accelerate, Deepspeed, FastAPI, vllm, Quantization, Distillation
+C/C++, Matlab & Simulink, Python, LaTeX, PyTorch, TensorBoard, OpenBayes, Transformers, Datasets, Pre-training, Continued training, MoE, SFT/instruct, PEFT, LoRA, unsloth, llama-factory, RLHF/RLAIF, DPO, PPO, GRPO, trl, RAG, llamaindex, Agent, ReAct, CoT, ToT, planing and Reflection, MCP, langchain/langgraph, Multi modal, Distributed parallel, Accelerate, Deepspeed, FastAPI, vllm, Quantization, Distillation
 
 
 ### Academic Services
