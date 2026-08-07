@@ -43,7 +43,7 @@ My research covers model training, inference, agent and applications, such as in
 
 Designed a modal space network, built, trained, and tuned the model based on LLaMA and transformers by RMS norm, KV cache and grouped query attention; Modal space alignment training with nonlinear mapping and fine tuning based on Qwen and SigLIP; Comparison of training effects about multiple mappings.
 
-**Knowledge System Engineering**
+**Project Large Model Know System Engineering**
 
 Machine learning and deep learning fundamental, Transformer, language model, Training, Fine-tuning and RL, Inference, Large model advance, Multi modal, Agent, Field application
 
