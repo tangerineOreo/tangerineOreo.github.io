@@ -40,7 +40,7 @@ I hope to combine AI, psychology, linguistics, cybernetics and multiple discipli
 
 ### Projects & Publications
 
-**Interaction of Multiple Large Models in the Perspective of Space**
+**Large Model Multi-Agent Social Simulation with Social Factors**
 
 ***Junping Li**, et al. Large model multi-agent social simulation with cognitive friction. in preparation, 2026.*
 
