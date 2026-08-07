@@ -26,10 +26,9 @@ title: About
 I'm Junping Li, MS in Marine Science at Shanghai Jiao Tong University and BE in Automation (EECS) at Ocean University of China. I study large model and applications at AI Institute, Shanghai Jiao Tong University, prior to this, I studied control & deep learning of cross environment vehicle, such as factor, condition, control strategy and deep reinforcement learning, at Shanghai Jiao Tong University. During my university years, I was awarded Outstanding Student, Outstanding Graduate, Academic Excellence Scholarship and Practice Scholarship.
 
 My research covers model training, inference, agent and applications, such as interaction of multiple models in space, mapping nonlinearity of modal space, and social simulation of agent or model space with cognition friction or other social factors.
+I have been learning and enjoy acquiring new knowledge, such as AI trend, linguistics, causal inference, cognitive science, game theory and so on, also interested in society, sometimes thinking something interesting: human non Bayesian or non scientific mind but enough natural/effective, fuzzy learning that we in most cases are based on rules and fuzzy logic, with explainable expression and network compatibility.
 
-I have been learning and enjoy acquiring new knowledge, such as AI trend, linguistics, causal inference, cognitive science, game theory and so on, also interested in mind, cognition, language and society, sometimes thinking something interesting: human non Bayesian or non scientific cognition but enough natural/effective, fuzzy learning that we in most cases are based on rules and fuzzy logic, with explainable expression and network compatibility.
-
-In the project and research, academia and industry, I hope to combine AI, psychology, linguistics and multiple disciplines to propose new ideas, theories and works, and make contributions to the development of human and society and the world we live in.
+I hope to combine AI, psychology, linguistics, cybernetics and multiple disciplines to propose new ideas, theories and works, and make contributions to the development of human and society and the world we live in.
 
 <div align="center">
   <img src="./pic/sh.jpg" alt=" " style="width: 40%; height: auto;">
@@ -41,13 +40,21 @@ In the project and research, academia and industry, I hope to combine AI, psycho
 
 ### Projects & Publications
 
-**Mapping Nonlinearity of Language and Modal Space with Large Model**
+**Interaction of Multiple Large Models in the Perspective of Space**
 
-*AI Institute, Shanghai Jiao Tong University, 2025*
+***Junping Li**, et al. Large model multi-agent social simulation with cognitive friction. in preparation, 2026.*
 
-Designed a modal space network, built, trained, and tuned the model based on LLaMA and transformers by RMS norm, KV cache and grouped query attention; Modal space alignment training with nonlinear mapping and fine tuning based on Qwen and SigLIP; Comparison of training effects about multiple mappings.
+Integrate cognitive dissonance theory in psychology and conflict functionalism in sociology to form the friction coefficient, consist of semantic distance, value conflict, emotional polarity difference or others, for the issues of excessive smoothness and false consensus in social simulations.
+
+**Interaction of Multiple Large Models in the Perspective of Space**
+
+***Junping Li**, Y Bai, S Wen, et al. Interaction of Multiple Large Models in Representation Space: A Comprehensive Survey. Preprint, 2025. junpingli.com*
+
+Spatial representation and cross-modal alignment & mapping; Model merging & ensembling in representation space; Multi-agent system, representation space interaction, social simulation and metaphor/evolution; Geometric analysis, interpretability and theory of space and interaction.
 
 **Project Large Model Know System Engineering**
+
+*junpingli.com*
 
 Machine learning and deep learning fundamental, Transformer, language model, Training, Fine-tuning and RL, Inference, Large model advance, Multi modal, Agent, Field application
 
