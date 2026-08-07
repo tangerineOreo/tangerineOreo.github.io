@@ -25,7 +25,7 @@ title: About
 
 I'm Junping Li, MS in Marine Science at Shanghai Jiao Tong University and BE in Automation (EECS) at Ocean University of China. I study large model and applications at AI Institute, Shanghai Jiao Tong University, prior to this, I studied cybernetics & deep learning of cross environment vehicle, such as factor, condition, control strategy and deep reinforcement learning, at Shanghai Jiao Tong University. During my university years, I was awarded Outstanding Student, Outstanding Graduate, Academic Excellence Scholarship and Practice Scholarship.
 
-My research focuses on model training, inference and agent, mapping nonlinearity of semantic and modal space, interaction of multiple models in space. I have been learning and enjoy acquiring new knowledge, such as AI new tech, linguistics, causal inference, cognitive science, game theory and so on, also interested in such as mind, cognition, language, society, sometimes thinking a few interesting questions: human non Bayesian or non scientific cognition but enough natural/effective, fuzzy learning that we in most cases are based on rules and fuzzy logic, with explainable expression and network compatibility, and social interaction or communication in abstract space. I hope to combine AI, psychology, linguistics and multiple disciplines to propose new ideas, theories and works, and they can be applied to the development of human and society, and make contributions to the world we live in.
+My research covers on model training, inference, agent, interaction of multiple models in space, such as mapping nonlinearity of modal space, and social interaction of agent or model space with cognition friction and other factors. I have been learning and enjoy acquiring new knowledge, such as AI new tech, linguistics, causal inference, cognitive science, game theory and so on, also interested in such as mind, cognition, language, society, sometimes thinking a few interesting questions: human non Bayesian or non scientific cognition but enough natural/effective, fuzzy learning that we in most cases are based on rules and fuzzy logic, with explainable expression and network compatibility, and social interaction or communication in abstract space. I hope to combine AI, psychology, linguistics and multiple disciplines to propose new ideas, theories and works, and they can be applied to the development of human and society, and make contributions to the world we live in.
 
 <div align="center">
   <img src="./pic/sh.jpg" alt=" " style="width: 40%; height: auto;">
@@ -52,16 +52,10 @@ Proposed a 3-D space cross model; Key issues: uncertainty, cross environment, co
 
 Proposed a strategy to address the control convergence problem caused by the large change of environment transition; Key factors and conditions of the cross environment in the various scenarios with multiple variables; Critical relations and feasible domains of the factors that control conditions need to meet.
 
-**Phenomena and Mechanisms of CE with Experiments and Learning**
-
-*T Wei, **Junping Li**, Z Zeng, et al. Trans-media resistance investigation of hybrid aerial underwater vehicle base on hydrodynamic experiments and machine learning. OE, 2022.*
-
-Built the experiment platform, invention patent CN202110217870.4; Operated the cross environment experiments of CEV with various states; Obtained the key mechanisms and coefficients by multivariate analysis and neural networks.
-
 
 ### Skills
 
-C/C++, Matlab & Simulink, Python, LaTeX, PyTorch, TensorBoard, OpenBayes, Transformers, Datasets, Pre-training, Continued training, MoE, SFT/instruct, PEFT, LoRA, unsloth, llama-factory, RLHF/RLAIF, DPO, PPO, GRPO, trl, RAG, llamaindex, Agent, ReAct, CoT, ToT, planing and Reflection, MCP, langchain/langgraph, Multi modal, Distributed parallel, Accelerate, Deepspeed, FastAPI, vllm, Quantization, Distillation
+C/C++, Matlab & Simulink, Python, LaTeX, PyTorch, TensorBoard, OpenBayes, drawio, Transformers, Datasets, Pre-training, Continued training, MoE, SFT/instruct fine-tuning, PEFT, LoRA, unsloth, llama-factory, RLHF/AIF, DPO, PPO, GRPO, trl, API, function call, prompt engineering, RAG, llamaindex, milvus, RAGFlow, Agent, CoT, ReAct, Reflection, MCP, langchain/langgraph, Multi modal, CLIP, LLaVA, Distributed parallel, Accelerate, Deepspeed, FastAPI, vllm, Quantization, Distillation
 
 
 ### Academic Services
