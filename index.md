@@ -48,13 +48,13 @@ Integrate cognitive dissonance theory in psychology and conflict functionalism i
 
 **Interaction of Multiple Large Models in the Perspective of Space**
 
-***Junping Li**, Y Bai, S Wen, et al. Interaction of Multiple Large Models in Representation Space: A Comprehensive Survey. Preprint, 2025. junpingli.com*
+***Junping Li**, Y Bai, S Wen, et al. Interaction of Multiple Large Models in Representation Space: A Comprehensive Survey. Preprint, 2025. junpingli.com/p/interact_multi_lm_space*
 
 Spatial representation and cross-modal alignment & mapping; Model merging & ensembling in representation space; Multi-agent system, representation space interaction, social simulation and metaphor/evolution; Geometric analysis, interpretability and theory of space and interaction.
 
 **Project Large Model Know System Engineering**
 
-*junpingli.com*
+*junpingli.com/proj_lm_kn_sys_eng*
 
 Machine learning and deep learning fundamental, Transformer, language model, Training, Fine-tuning and RL, Inference, Large model advance, Multi modal, Agent, Field application
 
