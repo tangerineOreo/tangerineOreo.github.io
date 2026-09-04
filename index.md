@@ -23,15 +23,15 @@ title: About
 </script>
 
 
-I'm Junping Li, MS in Marine Science at Shanghai Jiao Tong University and BE in Automation (EECS) at Ocean University of China. I study large model and applications at AI Institute, Shanghai Jiao Tong University, prior to this, I studied intelligent control strategy & deep learning of cross environment vehicle at Shanghai Jiao Tong University. During my university years, I was awarded Outstanding Student, Outstanding Graduate, Academic Excellence Scholarship and Practice Scholarship.
+I'm Junping Li, MS in Marine Science at Shanghai Jiao Tong University and BE in Automation (EECS) at Ocean University of China. I study large model and applications at AI Institute, Shanghai Jiao Tong University, prior to this, I studied intelligent control strategy & deep learning of cross environment vehicle. During my university years, I was awarded Outstanding Student, Outstanding Graduate, Academic Excellence Scholarship and Practice Scholarship.
 
-My research covers model training, inference, agent and applications, such as pre-training/CPT, SFT, RL, RAG, agent system, interaction of multiple models in space, mapping nonlinearity of modal space, and social simulation of multi-agent or model spaces with cognition friction or other social factors.
+My research covers model training, inference, agent and applications, such as pre-training/CPT, SFT, RL, RAG, agent system, interaction of multiple models in space, mapping nonlinearity of modal space, and social simulation of multi-agent or model spaces with cognition friction or other social factors.  
 I have been learning and enjoy acquiring new knowledge, such as AI trend, linguistics, causal inference, cognitive science, game theory and so on, also interested in society, sometimes thinking something interesting: human non Bayesian or non scientific mind but enough natural/effective, fuzzy learning that we in most cases are based on rules and fuzzy logic, with explainable expression and network compatibility.
 
-I hope to combine AI, psychology, linguistics, cybernetics and multiple disciplines to propose new ideas, theories and works, and make contributions to the development of human and society and the world we live in.
+I hope to combine AI, psychology, linguistics and multiple disciplines to propose new ideas, theories and works, and make contributions to the development of human and society and the world we live in.
 
 <div align="center">
-  <img src="./pic/sh.jpg" alt=" " style="width: 50%; height: auto;">
+  <img src="./pic/sh.jpg" alt=" " style="width: 40%; height: auto;">
 </div>
 
 
@@ -73,10 +73,8 @@ Proposed an intelligent strategy to address the convergence problem caused by th
 
 ### Skills
 
-C/C++, Matlab & Simulink, Python, LaTeX, PyTorch, TensorBoard, OpenBayes, Drawio, Transformers, Datasets, Pre-training/CPT, MoE, Distillation, SFT/instruct fine-tuning, PEFT, LoRA/QLoRA, Unsloth, LLaMA-Factory, Cold Start, RLHF/RLAIF/RLVR, Reward Model, DPO, PPO, GRPO, TRL, Rubrics as Reward, LLM-as-Judge
-
-Multimodal, CLIP/SigLIP, LLaVA, Training/inference RAM optimization acceleration, Distributed parallel, Accelerate, DeepSpeed, Quantization, FlashAttention, vLLM, RAGFlow, FastAPI, API, Function call, Prompt engineering, ICL, CoT
-
+C/C++, Matlab & Simulink, Python, LaTeX, PyTorch, TensorBoard, OpenBayes, FastAPI, Drawio, Transformers, Datasets, Pre-training/CPT, MoE, Distillation, SFT/instruct fine-tuning, PEFT, LoRA/QLoRA, Unsloth, LLaMA-Factory, Cold Start, RLHF/RLAIF/RLVR, Reward Model, DPO, PPO, GRPO, TRL, Rubrics as Reward, LLM-as-Judge  
+Multimodal, CLIP/SigLIP, LLaVA, Training/inference RAM optimization acceleration, Distributed parallel, Accelerate, DeepSpeed, Quantization, FlashAttention, vLLM, RAGFlow, API, Function call, Prompt engineering, ICL, CoT  
 RAG, LlamaIndex/LlamaCloud, FAISS, Milvus, Hybrid retrieval, PageIndex, Context engineering, Agent, ReAct/Planning/Reflection, Agent Loop, MCP, Skill, Multi-Agent architecture, Agent communication & control mechanism/strategy, A2A, Agent Runtime, LangChain/LangGraph, Agentic RL, Harness, Self-Evolution 
 
 
