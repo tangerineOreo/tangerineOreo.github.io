@@ -7,7 +7,7 @@ title: About
 
 <style>
   .container-lg {
-    max-width: 860px !important;
+    max-width: 900px !important;
   }
 </style>
 
@@ -23,7 +23,7 @@ title: About
 </script>
 
 
-I'm Junping Li, MS in Marine Science at Shanghai Jiao Tong University and BE in Automation (EECS) at Ocean University of China. I study large model and applications at AI Institute, Shanghai Jiao Tong University, prior to this, I studied control & deep learning of cross environment vehicle, such as factor, condition, control strategy and deep reinforcement learning, at Shanghai Jiao Tong University. During my university years, I was awarded Outstanding Student, Outstanding Graduate, Academic Excellence Scholarship and Practice Scholarship.
+I'm Junping Li, MS in Marine Science at Shanghai Jiao Tong University and BE in Automation (EECS) at Ocean University of China. I study large model and applications at AI Institute, Shanghai Jiao Tong University, prior to this, I studied intelligent control strategy & deep learning of cross environment vehicle at Shanghai Jiao Tong University. During my university years, I was awarded Outstanding Student, Outstanding Graduate, Academic Excellence Scholarship and Practice Scholarship.
 
 My research covers model training, inference, agent and applications, such as interaction of multiple models in space, mapping nonlinearity of modal space, and social simulation of agent or model space with cognition friction or other social factors.
 I have been learning and enjoy acquiring new knowledge, such as AI trend, linguistics, causal inference, cognitive science, game theory and so on, also interested in society, sometimes thinking something interesting: human non Bayesian or non scientific mind but enough natural/effective, fuzzy learning that we in most cases are based on rules and fuzzy logic, with explainable expression and network compatibility.
@@ -58,7 +58,7 @@ Spatial representation and cross-modal alignment & mapping; Model merging & ense
 
 Machine learning and deep learning fundamental, Transformer, language model, Training, Fine-tuning and RL, Inference, Large model advance, Multi modal, Agent, Field application
 
-**Nonlinear Control and Deep Reinforcement Learning of Cross Environment Vehicle**
+**Nonlinear Intelligent Control and Deep Reinforcement Learning of Cross Environment Vehicle**
 
 ***Junping Li**, H Zhou, D Lu, et al. Nonlinear and reinforcement learning control for motion of hybrid aerial underwater vehicle. Neural Computing and Applications, 2025.*
 
@@ -68,12 +68,12 @@ Proposed a 3-D space cross model; Key issues: uncertainty, cross environment(CE)
 
 ***Junping Li**, Y Jin, R Hu, et al. Trajectory tracking control of hybrid aerial underwater vehicle subject to wind and wave disturbances. Journal of Intelligent & Robotic Systems, 2024.*
 
-Proposed a strategy to address the control convergence problem caused by the large change of environment transition; Key factors and conditions of the cross environment in the various scenarios with multiple variables; Critical relations and feasible domains of the factors that control conditions need to meet.
+Proposed an intelligent strategy to address the convergence problem caused by the large change of environment transition; Key factors and conditions of the cross environment in the various scenarios with multiple variables; Critical relations and feasible domains of the factors that control conditions need to meet.
 
 
 ### Skills
 
-C/C++, Matlab & Simulink, Python, LaTeX, PyTorch, TensorBoard, OpenBayes, drawio, Transformers, Datasets, Pre-training, Continued training, MoE, SFT/instruct fine-tuning, PEFT, LoRA, unsloth, llama-factory, RLHF/AIF, DPO, PPO, GRPO, trl, API, function call, prompt engineering, RAG, llamaindex, milvus, RAGFlow, Agent, CoT, ReAct, Reflection, MCP, langchain/langgraph, Multi modal, CLIP, LLaVA, Distributed parallel, Accelerate, Deepspeed, FastAPI, vllm, Quantization, Distillation
+C/C++, Matlab & Simulink, Python, LaTeX, PyTorch, TensorBoard, OpenBayes, FastAPI, Drawio, Transformers, Datasets, Pre-training/CPT, MoE, Distillation, SFT/instruct fine-tuning, PEFT, LoRA/QLoRA, Unsloth, LLaMA-Factory, Cold Start, RLHF/RLAIF/RLVR, Reward Model, DPO, PPO, GRPO, TRL, Rubrics as Reward, LLM-as-Judge, API, Function call, Prompt engineering, ICL, CoT, RAG, LlamaIndex/LlamaCloud, FAISS, Milvus, Hybrid retrieval, PageIndex, Context engineering, Agent, ReAct/Planning/Reflection, Agent Loop, MCP, Skill, Multi-Agent architecture, Agent communication & control mechanism/strategy, A2A, Agent Runtime, LangChain/LangGraph, Agentic RL, Harness, Self-Evolution, Multimodal, CLIP/SigLIP, LLaVA, Training/inference RAM optimization acceleration, Distributed parallel, Accelerate, DeepSpeed, Quantization, FlashAttention, vLLM, RAGFlow
 
 
 ### Academic Services
