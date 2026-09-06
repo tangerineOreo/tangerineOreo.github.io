@@ -16,7 +16,7 @@ title: Paper
 
 
 <iframe 
-  src="pdfinfra.pdf" 
+  src="../pdfinfra.pdf" 
   width="100%" 
   height="600px"
   frameborder="0">
