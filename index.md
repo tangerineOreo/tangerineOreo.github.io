@@ -36,19 +36,25 @@ I hope to combine AI, psychology, linguistics and multiple disciplines to propos
 
 
 
+### Publications
+
+**Junping Li**, et al. Large model multi-agent social simulation with cognitive friction. in preparation, 2026.
+
+**Junping Li**, Y Bai, S Wen, et al. Interaction of Multiple Large Models in Representation Space: A Comprehensive Survey. Preprint, 2025. junpingli.com/p/interact_multi_lm_space
+
+**Junping Li**, H Zhou, D Lu, et al. Nonlinear and reinforcement learning control for motion of hybrid aerial underwater vehicle. Neural Computing and Applications, 2025.
+
+**Junping Li**, Y Jin, R Hu, et al. Trajectory tracking control of hybrid aerial underwater vehicle subject to wind and wave disturbances. Journal of Intelligent & Robotic Systems, 2024.
 
 
-### Projects & Publications
+
+### Projects
 
 **Large Model Multi-Agent Social Simulation with Social Factors**
-
-***Junping Li**, et al. Large model multi-agent social simulation with cognitive friction. in preparation, 2026.*
 
 Integrate cognitive dissonance theory in psychology and conflict functionalism in sociology to form the friction coefficient, consist of semantic distance, value conflict, emotional polarity difference or others, for the issues of excessive smoothness and false consensus in social simulations.
 
 **Interaction of Multiple Large Models in the Perspective of Space**
-
-***Junping Li**, Y Bai, S Wen, et al. Interaction of Multiple Large Models in Representation Space: A Comprehensive Survey. Preprint, 2025. junpingli.com/p/interact_multi_lm_space*
 
 Spatial representation and cross-modal alignment & mapping; Model merging & ensembling in representation space; Multi-agent system, representation space interaction, social simulation and metaphor/evolution; Geometric analysis, interpretability and theory of space and interaction.
 
@@ -58,26 +64,20 @@ Spatial representation and cross-modal alignment & mapping; Model merging & ense
 
 Machine learning and deep learning fundamental, Transformer, language model, Training, Fine-tuning and RL, Inference, Large model advance, Multi modal, Agent, Field application
 
-**Nonlinear Intelligent Control and Deep Reinforcement Learning of Cross Environment Vehicle**
-
-***Junping Li**, H Zhou, D Lu, et al. Nonlinear and reinforcement learning control for motion of hybrid aerial underwater vehicle. Neural Computing and Applications, 2025.*
+**Intelligent Control Strategy and Deep Learning of Cross Environment Vehicle**
 
 Proposed a 3-D space cross model; Key issues: uncertainty, cross environment(CE), constraint of environment difference; Nonlinear control laws with robustness, adaptation and fuzzy logic; Deep reinforcement learning of CE vehicle by deterministic policy, neural networks and temporal difference learning; Various methods in the tracking cases of issues.
-
-**Cross Domain Strategy, Factors and Conditions**
-
-***Junping Li**, Y Jin, R Hu, et al. Trajectory tracking control of hybrid aerial underwater vehicle subject to wind and wave disturbances. Journal of Intelligent & Robotic Systems, 2024.*
 
 Proposed an intelligent strategy to address the convergence problem caused by the large change of environment transition; Key factors and conditions of the cross environment in the various scenarios with multiple variables; Critical relations and feasible domains of the factors that control conditions need to meet.
 
 
 ### Skills
 
-C/C++, Matlab & Simulink, Python, LaTeX, PyTorch, TensorBoard, OpenBayes, FastAPI, Drawio, Transformers, Datasets  
-Pre-training/CPT, MoE, Distillation, SFT/instruct fine-tuning, PEFT, LoRA/QLoRA, Unsloth, LLaMA-Factory, Cold Start, RLHF/RLAIF/RLVR, Reward Model, DPO, PPO, GRPO, TRL, Rubrics as Reward, LLM-as-Judge  
-Multimodal, CLIP/SigLIP, LLaVA, Training/inference RAM optimization acceleration, Distributed parallel, Accelerate, DeepSpeed, Quantization, FlashAttention, vLLM, RAGFlow, API, Function call, Prompt engineering, ICL, CoT  
-RAG, LlamaIndex/LlamaCloud, FAISS, Milvus, Hybrid retrieval, PageIndex, Context engineering  
-Agent, ReAct/Planning/Reflection, Agent Loop, MCP, Skill, Multi-Agent architecture, Agent communication & control mechanism/strategy, A2A, Agent Runtime, LangChain/LangGraph, Agentic RL, Harness, Self-Evolution 
+- C/C++, Matlab & Simulink, Python, LaTeX, PyTorch, TensorBoard, OpenBayes, FastAPI, Drawio, Transformers, Datasets  
+- Pre-training/CPT, MoE, Distillation, SFT/instruct fine-tuning, PEFT, LoRA/QLoRA, Unsloth, LLaMA-Factory, Cold Start, RLHF/RLAIF/RLVR, Reward Model, DPO, PPO, GRPO, TRL, Rubrics as Reward, LLM-as-Judge  
+- Multimodal, CLIP/SigLIP, LLaVA, Training/inference RAM optimization acceleration, Distributed parallel, Accelerate, DeepSpeed, Quantization, FlashAttention, vLLM, RAGFlow, API, Function call, Prompt engineering, ICL, CoT  
+- RAG, LlamaIndex/LlamaCloud, FAISS, Milvus, Hybrid retrieval, PageIndex, Context engineering  
+- Agent, ReAct/Planning/Reflection, Agent Loop, MCP, Skill, Multi-Agent architecture, Agent communication & control mechanism/strategy, A2A, Agent Runtime, LangChain/LangGraph, Agentic RL, Harness, Self-Evolution 
 
 
 ### Academic Services
