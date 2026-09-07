@@ -62,7 +62,8 @@ Spatial representation and cross-modal alignment & mapping; Model merging & ense
 
 *junpingli.com/proj_lm_kn_sys_eng*
 
-Machine learning and deep learning fundamental, Transformer, language model, Training, Fine-tuning and RL, Inference, Large model advance, Multi modal, Agent, Field application
+System, understanding and code quick check of large model training, inference, applications and projects  
+Basis: transfomer, machine learning and deep learning, language model, large model Pre, modern trends; Model and training: pre-training/CPT, fine-tuning, distillation, RL; Inference, Large model advance, Multi modal, Agent, Field application
 
 **Intelligent Control Strategy and Deep Learning of Cross Environment Vehicle**
 
