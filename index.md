@@ -50,7 +50,7 @@ I hope to combine AI, psychology, linguistics and multiple disciplines to propos
 
 ### Projects
 
-**Large Model Multi-Agent Social Simulation with Social Factors**
+**Large Model Multi-Agent Social Interaction with Social Factors**
 
 Integrate cognitive dissonance theory in psychology and conflict functionalism in sociology to form the friction coefficient, consist of semantic distance, value conflict, emotional polarity difference or others, for the issues of excessive smoothness and false consensus in social simulations.
 
@@ -63,12 +63,12 @@ Spatial representation and cross-modal alignment & mapping; Model merging & ense
 *junpingli.com/proj_lm_kn_sys_eng*
 
 System, understanding and code quick check of large model training, inference, applications and projects  
-Basis: transfomer, machine learning and deep learning, language model, large model Pre, modern trends; Model and training: pre-training/CPT, fine-tuning, distillation, RL; Inference, Large model advance, Multi modal, Agent, Field application
+Basis: transfomer, machine learning and deep learning, language model, large model Pre, modern trends; Model and training: pre-training/CPT, fine-tuning, distillation, RL; Ability and optimization: training & inference RAM optimization acceleration, function call, prompt; Application: multimodal, RAG, agent
 
 **Intelligent Control Strategy and Deep Learning of Cross Environment Vehicle**
 
-Proposed a 3-D space cross model; Key issues: uncertainty, cross environment(CE), constraint of environment difference; Nonlinear control laws with robustness, adaptation and fuzzy logic; Deep reinforcement learning of CE vehicle by deterministic policy, neural networks and temporal difference learning; Various methods in the tracking cases of issues.
-
+Research on key issues and challenges facing the lack of cross environment mechanism system, factors, conditions and control strategies, nonlinear intelligent control, deep reinforcement learning in the field.  
+Proposed a 3-D space cross model; Key issues: uncertainty, cross environment(CE), constraint of environment difference; Nonlinear control laws with robustness, adaptation and fuzzy logic; Deep reinforcement learning of CE vehicle by deterministic policy, neural networks and temporal difference learning; Various methods in the tracking cases of issues.  
 Proposed an intelligent strategy to address the convergence problem caused by the large change of environment transition; Key factors and conditions of the cross environment in the various scenarios with multiple variables; Critical relations and feasible domains of the factors that control conditions need to meet.
 
 
