@@ -68,8 +68,8 @@ Basis: transfomer, machine learning and deep learning, language model, large mod
 **Intelligent Control Strategy and Deep Learning of Cross Environment Vehicle**
 
 Research on key issues and challenges facing the lack of cross environment mechanism system, factors, conditions and control strategies, nonlinear intelligent control, deep reinforcement learning in the field.  
-Proposed a 3-D space cross model; Uncertainty, cross environment(CE), constraint of environment difference key problems; Nonlinear control laws with robustness, adaptation and fuzzy logic; Deep reinforcement learning of CE vehicle by deterministic policy, temporal difference learning.  
-Proposed an intelligent strategy for the large change of environment; Key factors and conditions of the cross environment in the various scenarios with multiple variables; Critical relations and feasible domains of the factors that control conditions need to meet.
+Key coefficients of robotics by multivariate analysis and neural networks; Intelligent strategy for the large change of environment; Key factors and conditions of the cross environment(CE) with multiple variables, and critical relations & feasible domains; Proposed a 3-D space cross model; uncertainty and environment difference key problems; Nonlinear adaptive intelligent fuzzy logic and deep reinforcement learning of CE vehicle with deterministic policy & temporal difference learning.  
+
 
 
 ### Skills
