@@ -66,9 +66,8 @@ System, understanding and code quick check of large model training, inference, a
 Basis: transfomer, machine learning and deep learning, language model, large model Pre, modern trends; Model and training: pre-training/CPT, SFT, distillation, RL; Ability and optimization: training & inference RAM optimization acceleration, function call, prompt; Application: multimodal, RAG, agent
 
 **Intelligent Control Strategy and Deep Learning of Cross Environment Vehicle**
-
-Research on key issues and challenges facing the lack of cross environment mechanism system, factors, conditions and control strategies, nonlinear intelligent control, deep reinforcement learning in the field.  
-Key coefficients of robotics by multivariate analysis and neural networks; Intelligent strategy for the large change of environment; Key factors and conditions of the cross environment(CE) with multiple variables, and critical relations & feasible domains; Proposed a 3-D space cross model; uncertainty and environment difference key problems; Nonlinear adaptive intelligent fuzzy logic and deep reinforcement learning of CE vehicle with deterministic policy & temporal difference learning.  
+  
+Key coefficients of robotics by multivariate analysis and neural networks; Intelligent strategy for the large change of environment; Key factors and conditions of the cross environment(CE) with multiple variables, to critical relations & feasible domains; 3-D space cross model, uncertainty and environment difference key problems; Nonlinear adaptive intelligent fuzzy logic and deep reinforcement learning of CE vehicle with deterministic policy & temporal difference learning.  
 
 
 
