@@ -54,9 +54,9 @@ I hope to combine AI, psychology, linguistics and multiple disciplines to propos
 
 Integrate cognitive dissonance theory in psychology and conflict functionalism in sociology to form the friction coefficient, consist of semantic distance, value conflict, emotional polarity difference or others, for the issues of excessive smoothness and false consensus in social simulations.
 
-**SmartPsych: large model intelligent service for social science psychology field knowledge, research and academy**
+**SmartPsych: large model smart social science psychology field knowledge, research and academy**
 
-Knowledge base: llamaindex+BGE+milvus, pageindex local, md + original pdf page number mapping + large model tree index; Retrieve recall: mixed retrieval of word frequency BM25, dense semantics and sparse word importance vector similarity, contact attention rerank; Inference retrieval: page source, hierarchical path, inference track; Agnet workflow: react and function call, context and memory management, reflection; Input/output optimization: query rewriting, answer quotation.
+llamaindex+BGE+milvus knowledge base, pageindex local, markdown+pdf page number mapping+large model to tree index; Hybrid retrieval of text frequency BM25, dense semantics and sparse word importance vector similarities, and concat attention rerank; Inference retrieval with page source, hierarchical path, and inference trace; Agnet workflow: react and function call, context and memory management, reflection; Input/output optimization: query rewriting, answer quotation.
 
 **Interaction of Multiple Large Models in the Perspective of Space**
 
