@@ -22,7 +22,6 @@ System, understanding and code quick check of large model training, inference, a
 - Language model
 - Large model pre
 - Model trends
-- Code Note
 
 **Traning**
 - Pre-training/CPT
