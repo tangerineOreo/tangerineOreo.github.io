@@ -13,6 +13,8 @@ title: Project
 </script>
 
 
+System, understanding and code quick check of large model training, inference, applications and projects
+
 ## Catalog
 **Basis**
 - Transformer origin
