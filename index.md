@@ -67,7 +67,7 @@ Spatial representation and cross-modal alignment & mapping; Model merging & ense
 *junpingli.com/proj_lm_kn_sys_eng*
 
 System, understanding and code quick check of large model training, inference, applications and projects  
-Basis: transfomer, machine learning and deep learning, language model, large model Pre, modern trends; Model and training: pre-training/CPT, SFT, distillation, RL; Ability and optimization: training & inference RAM optimization acceleration, function call, prompt; Application: multimodal, RAG, agent
+Basis: transfomer, machine learning and deep learning, language model, large model Pre, model trends; Training: pre-training/CPT, SFT, distillation, RL; Training & inference optimization: data/device/algorithms, RAM/bandwidth/compute, API, function call, prompt; Application: multimodal, RAG, agent, engineering and project
 
 **Intelligent Control Strategy and Deep Learning of Cross Environment Vehicle**
   
