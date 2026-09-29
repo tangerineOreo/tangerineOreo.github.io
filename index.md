@@ -77,11 +77,11 @@ Key coefficients of robotics by multivariate analysis and neural networks; Intel
 
 ### Skills
 
-- C/C++, Matlab & Simulink, Python, LaTeX, PyTorch, TensorBoard, OpenBayes, FastAPI, Drawio, Transformers, Datasets  
-- Pre-training/CPT, MoE, Distillation, SFT/instruct fine-tuning, PEFT, LoRA/QLoRA, Unsloth, LLaMA-Factory, Cold Start, RLHF/RLAIF/RLVR, Reward Model, DPO, PPO, GRPO, TRL, Rubrics as Reward, LLM-as-Judge  
-- Multimodal, CLIP/SigLIP, LLaVA, Training/inference RAM optimization acceleration, Distributed parallel, Accelerate, DeepSpeed, Quantization, FlashAttention, vLLM, RAGFlow, API, Function call, Prompt engineering, ICL, CoT  
-- RAG, LlamaIndex/LlamaCloud, FAISS, Milvus, Hybrid retrieval, PageIndex, Context engineering  
-- Agent, ReAct/Planning/Reflection, Agent Loop, MCP, Skill, Multi-Agent architecture, Agent communication & control mechanism/strategy, A2A, Agent Runtime, LangChain/LangGraph, Agentic RL, Harness, Self-Evolution 
+- C/C++, Matlab & Simulink, Python, PyTorch, LaTeX, FastAPI, Redis, OpenBayes, Drawio, Transformers, Datasets  
+- Pre-training/CPT, MoE, Distillation, SFT/instruct fine-tuning, PEFT, LoRA/QLoRA, Unsloth, LlamaFactory, Cold Start, RLHF/RLAIF, RLVR, Reward Model, DPO/PPO/GRPO, TRL, verl, Rubrics as Reward, LLM-as-Judge  
+- Multimodal, CLIP/SigLIP, LLaVA, Training inference optimization, FlashAttention, Quantization, Distributed parallel, Accelerate, DeepSpeed, vLLM, Concurrency, API, Function call, Prompt engineering, CoT  
+- RAG, LlamaIndex, FAISS, Milvus, Hybrid retrieval, PageIndex, Context engineering  
+- Agent, ReAct/Planning/Reflection, Agent Loop, Tool use, MCP, Skill, Multi-Agent architecture, Communication mechanism, Control strategy, LangChain/LangGraph, A2A, Agentic RL, Harness, Self-Evolution 
 
 
 ### Academic Services
