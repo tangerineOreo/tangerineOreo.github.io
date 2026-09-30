@@ -81,7 +81,7 @@ Content
 Training requires a mask, because attention carries historical information, and because we want teacher forcing with parallel loss computation, rather than feeding the sequences in one at a time and taking the last row (that works but is inefficient; batching successive prefixes one after another is also inefficient, worse than parallelism within a single sequence)<br>
 &emsp;&emsp;Each row is only affected by the history<br>
 Inference: batch, seq, dim/vocab; take the last row; custom random generation<br>
-&emsp;&emsp;Prefill: process the prompt sequence / there is no KV cache yet and the KV cache is built; afterwards, during generation, only one token is fed in — batch, 1, not a sequence<br>
+&emsp;&emsp;Prefill: process the prompt sequence / there is no KV cache yet and the KV cache is built; during generation, input one token batch, 1, not a sequence<br>
 Inference during training: parameters remain unchanged
 
 ### Machine learning and deep learning
@@ -114,7 +114,7 @@ CNN local, RNN memory
 &emsp;&emsp;&emsp;&emsp;Information content or information entropy contributed to the system = cumulative probability proportion x, i.e., expectation<br>
 &emsp;&emsp;Relative Entropy / KL Divergence<br>
 &emsp;&emsp;&emsp;&emsp;Cumulative pi\*log(pi/qi) / Cross-entropy minus sampling baseline information entropy<br>
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Gibbs' inequality / Relative entropy KL > 0, -KLpq != KLqp<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Gibbs inequality / Relative entropy KL > 0, -KLpq != KLqp<br>
 &emsp;&emsp;&emsp;&emsp;Cross-entropy Loss accumulates over quantity / Baseline is the sample, accumulating multiple probability labels<br>
 When determining labels or distributions, cross-entropy is equivalent to the KL<br>
 KL divergence directly measures the difference between distributions
@@ -230,9 +230,33 @@ Training tasks<br>
 &emsp;&emsp;Masked word prediction / MLM, masked language modeling<br>
 &emsp;&emsp;Sentence 1 and sentence 2 concatenated; binary classification on CLS for whether it is the next sentence / NSP, next sentence prediction<br>
 Fine-tuning tasks, e.g. sentence sentiment classification<br>
-When using it, add a task-specific output module and fine-tune<br>
+When using it, add a task-specific output module and fine-tune
+
+**LLaMA**
 
 ### Model trends
+
+
+Post-norm: norm is applied after x + f(x)<br>
+&emsp;&emsp;The norm changes at every pass; slower convergence / requires warmup and learning-rate scheduling; higher performance ceiling<br>
+Pre-norm: x + f(norm(x))<br>
+&emsp;&emsp;The residual stream stays clean; fast convergence / insensitive to hyperparameters<br>
+RMS<br>
+<br>
+GLU / gated linear unit<br>
+&emsp;&emsp;FFN: x - w1 - relu - w2 - output; introduces a projection matrix w3 as a gating sigmoid branch output<br>
+&emsp;&emsp;(x - w1 - relu) and (x - w3 - sigmoid) multiplied element-wise - w2 - output<br>
+SwiGLU: SiLU = x * sigmoid(x)<br>
+<br>
+RoPE<br>
+<br>
+MHA / MQA / GQA<br>
+<br>
+Depth and width: d_model / n_layers ≈ 100, vocab size on the order of 100k, hidden dimension ratio d_ffn = 4 * d_model, mostly 2.6-4<br>
+Weight decay; dropout used sparingly<br>
+<br>
+Matrix multiplication > norm > bias; trade-off between attention complexity and computational speedup<br>
+Innovative module architectures<br>
 
 ## Traning
 ### Pre-training/CPT
