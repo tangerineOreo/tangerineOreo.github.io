@@ -23,7 +23,7 @@ title: About
 </script>
 
 
-I'm Junping Li, MS in Marine Science at Shanghai Jiao Tong University and BE in Automation (EECS) at Ocean University of China. I study large model and applications at AI Institute, Shanghai Jiao Tong University, prior to this, I studied intelligent control strategy & deep learning of cross environment vehicle. During my university years, I was awarded Outstanding Student, Outstanding Graduate, Academic Excellence Scholarship and Practice Scholarship.
+I'm Junping Li, MS in Marine Science with major on ocean intelligence at Shanghai Jiao Tong University and BE in Automation (EECS) at Ocean University of China. I study large model and applications at AI Institute, Shanghai Jiao Tong University, prior to this, I studied intelligent control strategy & deep learning of cross environment vehicle. During my university years, I was awarded Outstanding Student, Outstanding Graduate, Academic Excellence Scholarship and Practice Scholarship.
 
 My research covers model training, inference, agent and applications, such as pre-training/CPT, SFT, RL, RAG, agent system, interaction of multiple models in space, mapping nonlinearity of modal space, and social simulation of multi-agent or model spaces with cognition friction or other social factors.  
 I have been learning and enjoy acquiring new knowledge, such as AI trend, linguistics, causal inference, cognitive science, game theory and so on, also interested in society, sometimes thinking something interesting: human non Bayesian or non scientific mind but enough natural/effective, fuzzy learning that we in most cases are based on rules and fuzzy logic, with explainable expression and network compatibility.
