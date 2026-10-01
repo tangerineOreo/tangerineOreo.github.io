@@ -81,7 +81,7 @@ Attention, Fully connected feedforward 1ReLU2/+ResNet+Norm
 &emsp;&emsp;W matrix din=dout, Q matrix K matrix/sqrt(dout)/Vectors in QK are dout-dimensional independent N(0,1)/Product N(0,dout)  
 &emsp;&emsp;Din dimension split heads/Dout split heads, Feedforward dimensionality changes, Hidden layer d-task linear layer logits
 
-Feature of training inference<br>
+**Feature of training inference**<br>
 Training requires a mask, because attention carries historical information, and because we want teacher forcing with parallel loss computation, rather than feeding the sequences in one at a time and taking the last row (that works but is inefficient; batching successive prefixes one after another is also inefficient, worse than parallelism within a single sequence)<br>
 &emsp;&emsp;Each row is only affected by the history<br>
 Inference: batch, seq, dim/vocab; take the last row; custom random generation<br>
@@ -205,10 +205,10 @@ Similarity and deduplication<br>
 &emsp;&emsp;TF, TF-IDF, vectors
 
 Text clustering, k-means, vector similarity in embedding space<br>
-&emsp;&emsp;Dimensionality reduction: PCA / magnitude of variance; LDA (Linear Discriminant Analysis) / projection onto a line; SVD / the V matrix of the data matrix as principal components; UMAP (Uniform Manifold Approximation and Projection) / cross-entropy between high- and low-dimensional representations, low-dimensional visualization<br>
-&emsp;&emsp;&emsp;&emsp;Singular value decomposition (SVD) / analogous to Fourier and Taylor series
+&emsp;&emsp;Dimensionality reduction: PCA / magnitude of variance; LDA (Linear Discriminant Analysis) / projection onto a line; SVD (Singular Value Decomposition) / the V matrix of the data matrix as principal components; UMAP (Uniform Manifold Approximation and Projection) / cross-entropy between high- and low-dimensional representations, low-dimensional visualization<br>
+&emsp;&emsp;&emsp;&emsp;SVD analogous to Fourier and Taylor series
 
-Topic models / category classification / Latent Dirichlet Allocation (LDA), term frequency, bag-of-words, Bayesian inference / BERT / GPT, topic-word distributions / probabilities<br>
+Topic models / category classification / LDA (Latent Dirichlet Allocation), term frequency, bag-of-words, Bayesian inference / BERT / GPT, topic-word distributions / probabilities<br>
 
 ### Large model pre
 
@@ -353,6 +353,19 @@ Sparse MoE / Switch Transformer / the switch selects an FFN<br>
 Shared-expert sparse MoE / DeepSeek; torch.topk over the experts other than the shared one<br>
 MoE activation 0.05 / 0.1 / 0.2
 
+MoE load balancing<br>
+&emsp;&emsp;The routing scores are adjusted by a bias b before top-k; b varies with the load; no loss is needed<br>
+&emsp;&emsp;&emsp;&emsp;b is adjusted after each micro-batch of tokens<br>
+&emsp;&emsp;Loss coefficient: increases automatically when the load is imbalanced, tends to 0 when the load is balanced
+
+MoE token arrangement within a sequence<br>
+&emsp;&emsp;For a token of dimension dim, the routing matrix maps dim to the number of experts; the weights are normalized by softmax within the top-k<br>
+&emsp;&emsp;The FFNs process the token; a weighted sum over the top-k FFNs<br>
+Auxiliary losses can be computed at intermediate layers<br>
+&emsp;&emsp;z-loss: a regularization constraint on the logits before the per-layer expert top-k<br>
+&emsp;&emsp;Backpropagation up to that layer; the per-layer losses can be summed; automatic differentiation, with the derivative equal to 0 for unrelated layers<br>
+&emsp;&emsp;Load-balancing loss: winner-takes-all — training it further makes the MoE degenerate into a dense model; the fraction of tokens assigned to an expert (actual load) * the probability that the expert is selected by the router; minimizing this expectation is equivalent to load balancing
+
 ### SFT/instruct fine-tuning
 
 Scenarios for fine-tuning<br>
@@ -434,13 +447,92 @@ Learning rate: full fine-tuning 1-5e-5, PEFT 1-3e-4, pre-training 1e-4 - 1e-3<br
 Per-GPU batch size 2-8 / limited by memory; gradient accumulation 1-8 / simulates a larger batch; effective batch = number of GPUs * accumulation<br>
 L2 weight decay 0-0.01
 
-**Implementation** of fine-tuning<br>
+**Implementation of fine-tuning**
+
 LlamaFactory<br>
 Unsloth
 
 ### Distillation
 
+Black-box knowledge distillation: a large model generates data to train a small model<br>
+White-box knowledge distillation: the distribution of the large model, KL<br>
+&emsp;&emsp;The model distribution is not open-source and is hard to obtain; the models have different output formats
+
+**Implementation of distillation**
+
+ijk
+
 ### Reinforcement learning
+
+Fine-tuning has no useless / incorrect / harmful information; RL is needed<br>
+Fine-tuning data is limited, and it is imitation; RL scores the generation process, which is generalizable and fuzzy<br>
+RL<br>
+&emsp;&emsp;Reward model r at each step, value, large model / policy<br>
+&emsp;&emsp;Grid scores: the highest achievable future score starting from the current position; train the large model on the path with the highest score
+
+**Sequence reward model**, which does not have to be a neural network / scores based on the outcome and facts<br>
+&emsp;&emsp;Data consists of concatenated QA pairs and human preference annotations in pairs<br>
+&emsp;&emsp;Training / deep-learning supervised, not RL / contrastive learning on positive and negative data, maximizing the distinction: -log(sigmoid(r_j - r_k))
+
+**Training policy / large model**<br>
+&emsp;&emsp;State / autoregressive sequence / the token is updated at each step<br>
+&emsp;&emsp;&emsp;&emsp;Input: the question; the large model answers<br>
+&emsp;&emsp;r is returned at the last token, when the sequence is complete; there is no r during the intermediate steps
+
+&emsp;&emsp;Proximal Policy Optimization (PPO)<br>
+&emsp;&emsp;Objective: multi-timestep expectation = policy ratio (new vs. old) in the direction of A - TD via the v network + entropy regularization - relative-entropy KL(RL, SFT), policy ratio<br>
+&emsp;&emsp;&emsp;&emsp;Entropy regularization is used in RL / increases exploration and prevents the policy from becoming deterministic<br>
+&emsp;&emsp;&emsp;&emsp;L1 / L2 regularization: minimized; entropy regularization: maximized; relative-entropy KL regularization: minimized<br>
+&emsp;&emsp;&emsp;&emsp;Policy ratio: the probability of each token of the state sequence under the different policies<br>
+&emsp;&emsp;Advantage A = Q - V<br>
+&emsp;&emsp;&emsp;&emsp;Adding or subtracting b(s) does not affect it; the Bellman equation for Q and V; subtracting V = E[Q] gives the minimum variance<br>
+&emsp;&emsp;On-policy; computing A for a single timestep / Generalized Advantage Estimation (GAE)<br>
+&emsp;&emsp;&emsp;&emsp;Multi-step expansion into the future; TD / Bellman form; weighted average of A / normalized weights, lambda-return<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(1-lambda) * geometric series * discount series, infinite; lambda in 0-1 determines the main range of steps<br>
+&emsp;&emsp;TRPO and clipping to 0.8-1.2, adaptive GAE length
+
+&emsp;&emsp;Group Relative Policy Optimization (GRPO)<br>
+&emsp;&emsp;No value network; multiple answers sampled for one question / rewards N(0,1) used as the relative advantage b; the objective function averaged over the multiple answers<br>
+&emsp;&emsp;Better suited to a final answer or a single step
+
+&emsp;&emsp;batch
+
+DPO: training the reward model is the policy / in practice no reward model is needed<br>
+&emsp;&emsp;Solving the optimization objective gives the form of the optimal policy; the reward function takes the form = policy ratio + Z; in the contrastive learning objective Z cancels out<br>
+Token-level loss: 1 / total length; sequence-level loss: 1 / sequence length, averaged over the sum of multiple groups
+
+Fine-tuning / continued pre-training: pad sentences on the right; RL: pad on the left
+
+**Deepseek R1**
+
+R1-Zero: no fine-tuning / pure RL on v3-base<br>
+&emsp;&emsp;GRPO: temperature-based random sampling to generate multiple answers<br>
+&emsp;&emsp;With ground truth there is no need to train a reward model; the reward is the correctness of the result<br>
+&emsp;&emsp;Format reward: the reasoning process is required to be placed between <think> tags, but the reasoning sentences themselves are not trained with a reward, preventing reward hacking where the reasoning scores very high but the result is wrong<br>
+&emsp;&emsp;A simple prompt template: system prompt / user prompt / assistant think-answer; generalization<br>
+&emsp;&emsp;Self-evolution: the average thinking time gradually increases with training; the aha moment<br>
+&emsp;&emsp;Readability and mixed languages
+
+R1<br>
+&emsp;&emsp;4 stages of training<br>
+&emsp;&emsp;Cold-start data<br>
+&emsp;&emsp;&emsp;&emsp;A few thousand samples / unlike SFT with its hundreds of thousands<br>
+&emsp;&emsp;&emsp;&emsp;Long-CoT data generated by prompting R1-Zero with few-shot examples; based on the model's own distribution; the format of the reasoning process and the final answer<br>
+&emsp;&emsp;Cold-start SFT on v3-base<br>
+&emsp;&emsp;Reasoning RL: math and coding<br>
+&emsp;&emsp;SFT<br>
+&emsp;&emsp;&emsp;&emsp;Reasoning data: 600k samples; multiple answers sampled from the previous-stage model and filtered; v3 reviews the non-rule-based part<br>
+&emsp;&emsp;&emsp;&emsp;Non-reasoning data: reused from v3, 200k samples<br>
+&emsp;&emsp;&emsp;&emsp;Trained for 2 epochs<br>
+&emsp;&emsp;RL: reasoning and non-reasoning<br>
+&emsp;&emsp;&emsp;&emsp;Reasoning data / rule-based rewards<br>
+&emsp;&emsp;&emsp;&emsp;General data / reward model; multiple answers ranked by preference; contrastive learning on each pair<br>
+Benchmarks: MMLU, SimpleQA, SWE-bench Verified, LiveCodeBench, AIME 2024, etc.<br>
+Dataset for distilling a large model to train a small model<br>
+
+**Implementation of RL**
+
+ijk
 
 ## Training & Inference Optimization
 
