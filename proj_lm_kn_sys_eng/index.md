@@ -202,11 +202,12 @@ Accuracy, 0.1-0.5, Yes, 3-5, <=10, <=0.5<br>
 Balance, 0.7-1, No, No, 30-50, 0.7-0.9
 
 Similarity and deduplication<br>
-&emsp;&emsp;TF, TF-IDF, vectors<br>
-<br>
+&emsp;&emsp;TF, TF-IDF, vectors
+
 Text clustering, k-means, vector similarity in embedding space<br>
 &emsp;&emsp;Dimensionality reduction: PCA / magnitude of variance; LDA (Linear Discriminant Analysis) / projection onto a line; SVD / the V matrix of the data matrix as principal components; UMAP (Uniform Manifold Approximation and Projection) / cross-entropy between high- and low-dimensional representations, low-dimensional visualization<br>
-&emsp;&emsp;Singular value decomposition (SVD) / analogous to Fourier and Taylor series<br>
+&emsp;&emsp;&emsp;&emsp;Singular value decomposition (SVD) / analogous to Fourier and Taylor series
+
 Topic models / category classification / Latent Dirichlet Allocation (LDA), term frequency, bag-of-words, Bayesian inference / BERT / GPT, topic-word distributions / probabilities<br>
 
 ### Large model pre
