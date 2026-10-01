@@ -212,7 +212,7 @@ Topic models / category classification / LDA (Latent Dirichlet Allocation), term
 
 ### Large model pre
 
-Emergent abilities: in-context learning, CoT, commonsense reasoning / logical reasoning, code, translation, instruction following, etc.<br>
+Emergent abilities: in-context learning, CoT, commonsense reasoning / logical reasoning, code, language & translation, instruct following<br>
 Scaling Law / model performance as a function of model parameter scale and data scale<br>
 Transformer-based<br>
 &emsp;&emsp;Encoder-only / discriminative tasks / BERT<br>
@@ -300,8 +300,6 @@ Multi-token prediction<br>
 &emsp;&emsp;Trains the main model's ability to predict multiple future tokens<br>
 &emsp;&emsp;Speculative decoding: inference with the multiple subsequent models
 
-### Code notice
-
 ## Traning
 
 ### Pre-training/CPT
@@ -343,7 +341,11 @@ Data mixture: BERT classification; Chinese / English / code ratio 4:4:2; keep th
 wandb, TensorBoard<br>
 OpenCompass: AIME math competition, Codeforces, MATH-500 math problems, MMLU general, SWE-bench Verified software engineering
 
-Datasets Hugging Face
+Datasets Hugging Face, modelscope
+
+**Implementation notice**
+
+ijk
 
 ### MoE
 
@@ -363,7 +365,7 @@ MoE token arrangement within a sequence<br>
 &emsp;&emsp;The FFNs process the token; a weighted sum over the top-k FFNs<br>
 Auxiliary losses can be computed at intermediate layers<br>
 &emsp;&emsp;z-loss: a regularization constraint on the logits before the per-layer expert top-k<br>
-&emsp;&emsp;Backpropagation up to that layer; the per-layer losses can be summed; automatic differentiation, with the derivative equal to 0 for unrelated layers<br>
+&emsp;&emsp;&emsp;&emsp;Backpropagation up to that layer; the per-layer losses can be summed; automatic differentiation, with the derivative equal to 0 for unrelated layers<br>
 &emsp;&emsp;Load-balancing loss: winner-takes-all — training it further makes the MoE degenerate into a dense model; the fraction of tokens assigned to an expert (actual load) * the probability that the expert is selected by the router; minimizing this expectation is equivalent to load balancing
 
 ### SFT/instruct fine-tuning
@@ -449,8 +451,61 @@ L2 weight decay 0-0.01
 
 **Implementation of fine-tuning**
 
-LlamaFactory<br>
-Unsloth
+AutoDL files in the same region are loaded via the file system onto the instance's temporary disk (tmp) or data disk (data)<br>
+Models and data: ModelScope, Hugging Face<br>
+unzip, cp, cd
+
+pip install unsloth; unsloth_zoo for model conversion / export / testing and other non-core training functions; bitsandbytes for low-level quantized loading and optimization<br>
+&emsp;&emsp;Installing unsloth automatically installs transformers, peft, and accelerate<br>
+<br>
+&emsp;&emsp;accelerate: a distributed abstraction layer and lightweight orchestrator, built on top of the various underlying libraries<br>
+&emsp;&emsp;&emsp;&emsp;Single GPU / data parallelism (DDP) / fully sharded data parallelism (FSDP) — PyTorch, Meta<br>
+&emsp;&emsp;&emsp;&emsp;TPU hardware — Google<br>
+&emsp;&emsp;&emsp;&emsp;DeepSpeed — Microsoft; ZeRO-3: optimizer states + gradients + model parameters<br>
+&emsp;&emsp;&emsp;&emsp;Megatron-LM — NVIDIA; 3D parallelism: data + tensor + pipeline
+
+from unsloth import FastLanguageModel — the integration and support layer; rewritten new features; a library for LM fine-tuning with quantization, acceleration, and distribution<br>
+&emsp;&emsp;Load the model and the tokenizer correspondingly, by name / path; optional max_seq_len / dtype / bnb_config with load_in_4bit<br>
+&emsp;&emsp;input_text message<br>
+&emsp;&emsp;ids_inputs = tokenizer.apply_chat_template<br>
+&emsp;&emsp;model(ids_inputs).to(device)<br>
+&emsp;&emsp;model.eval(); ids_outputs = model.generate<br>
+&emsp;&emsp;tokenizer.decode<br>
+pipeline is simpler<br>
+Training / inference optimization: .for_training / .for_inference(model)<br>
+&emsp;&emsp;still need model.eval / train mode, or trainer.train / evaluate / predict, which runs automatically and returns to train mode
+
+Dataset preparation<br>
+The chat template for each model<br>
+&emsp;&emsp;String '{}'.format(content): input, cot, output<br>
+&emsp;&emsp;&emsp;&emsp;'{name}'.format, f'{name}'<br>
+&emsp;&emsp;&emsp;&emsp;+ EOS_TOKEN<br>
+&emsp;&emsp;apply_chat_template does it automatically; concatenating cot and output; '{}'.format and f'{}'<br>
+The datasets library / format: a list of dictionaries, json<br>
+&emsp;&emsp;load_dataset: Hugging Face, local files such as json, loading script .py<br>
+&emsp;&emsp;&emsp;&emsp;.train_test_split<br>
+&emsp;&emsp;map with a chat-template function or the tokenizer
+
+Model training<br>
+FastLanguageModel.for_training(model)<br>
+Without PEFT there is no need for .get_peft_model(...) with a LoraConfig<br>
+&emsp;&emsp;print(model), target_modules<br>
+&emsp;&emsp;lora_alpha / r: W + lora_alpha/r * BA<br>
+Trainer<br>
+&emsp;&emsp;Dataset: tokenizer to ids; padding is not fixed during training — alignment / dynamic padding via data_collator<br>
+&emsp;&emsp;data_collator per batch<br>
+&emsp;&emsp;General purpose; generally not used for SFT<br>
+TRL's SFTTrainer and TrainingArguments<br>
+&emsp;&emsp;The dataset is text; the ids are handled automatically; dataset_text_field='text' is needed because there is more than one field label<br>
+&emsp;&emsp;&emsp;&emsp;as SFT requires chat-format markers or the message style<br>
+&emsp;&emsp;packing: whether to concatenate up to max_seq_len<br>
+&emsp;&emsp;Per-GPU batch / number of samples processed per core; gradient accumulation steps before the update / prevents overfitting / simulates a larger batch — llama 4M<br>
+&emsp;&emsp;Learning rate / warmup / scheduling<br>
+&emsp;&emsp;Optimizer, quantization, logging, saving, and related settings<br>
+<br>
+After training<br>
+Load with PeftModel or AutoPeftModelFor...; AutoPeftModel does not load the task output module; or load with FastLanguageModel<br>
+Merging the model; PEFT is optional<br>
 
 ### Distillation
 
@@ -479,7 +534,7 @@ RL<br>
 &emsp;&emsp;&emsp;&emsp;Input: the question; the large model answers<br>
 &emsp;&emsp;r is returned at the last token, when the sequence is complete; there is no r during the intermediate steps
 
-&emsp;&emsp;Proximal Policy Optimization (PPO)<br>
+&emsp;&emsp;Proximal Policy Optimization (**PPO**)<br>
 &emsp;&emsp;Objective: multi-timestep expectation = policy ratio (new vs. old) in the direction of A - TD via the v network + entropy regularization - relative-entropy KL(RL, SFT), policy ratio<br>
 &emsp;&emsp;&emsp;&emsp;Entropy regularization is used in RL / increases exploration and prevents the policy from becoming deterministic<br>
 &emsp;&emsp;&emsp;&emsp;L1 / L2 regularization: minimized; entropy regularization: maximized; relative-entropy KL regularization: minimized<br>
@@ -491,14 +546,13 @@ RL<br>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(1-lambda) * geometric series * discount series, infinite; lambda in 0-1 determines the main range of steps<br>
 &emsp;&emsp;TRPO and clipping to 0.8-1.2, adaptive GAE length
 
-&emsp;&emsp;Group Relative Policy Optimization (GRPO)<br>
+&emsp;&emsp;Group Relative Policy Optimization (**GRPO**)<br>
 &emsp;&emsp;No value network; multiple answers sampled for one question / rewards N(0,1) used as the relative advantage b; the objective function averaged over the multiple answers<br>
 &emsp;&emsp;Better suited to a final answer or a single step
 
-&emsp;&emsp;batch
+**DPO** training the reward model is the policy / in practice no reward model is needed<br>
+&emsp;&emsp;Solving the optimization objective gives the form of the optimal policy; the reward function takes the form = policy ratio + Z; in the contrastive learning objective Z cancels out
 
-DPO: training the reward model is the policy / in practice no reward model is needed<br>
-&emsp;&emsp;Solving the optimization objective gives the form of the optimal policy; the reward function takes the form = policy ratio + Z; in the contrastive learning objective Z cancels out<br>
 Token-level loss: 1 / total length; sequence-level loss: 1 / sequence length, averaged over the sum of multiple groups
 
 Fine-tuning / continued pre-training: pad sentences on the right; RL: pad on the left
@@ -508,8 +562,8 @@ Fine-tuning / continued pre-training: pad sentences on the right; RL: pad on the
 R1-Zero: no fine-tuning / pure RL on v3-base<br>
 &emsp;&emsp;GRPO: temperature-based random sampling to generate multiple answers<br>
 &emsp;&emsp;With ground truth there is no need to train a reward model; the reward is the correctness of the result<br>
-&emsp;&emsp;Format reward: the reasoning process is required to be placed between <think> tags, but the reasoning sentences themselves are not trained with a reward, preventing reward hacking where the reasoning scores very high but the result is wrong<br>
-&emsp;&emsp;A simple prompt template: system prompt / user prompt / assistant think-answer; generalization<br>
+&emsp;&emsp;&emsp;&emsp;Format reward: the reasoning process is required to be placed between <think> tags, but the reasoning sentences themselves are not trained with a reward, preventing reward hacking where the reasoning scores very high but the result is wrong<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;A simple prompt template: system prompt / user prompt / assistant think-answer; generalization<br>
 &emsp;&emsp;Self-evolution: the average thinking time gradually increases with training; the aha moment<br>
 &emsp;&emsp;Readability and mixed languages
 
@@ -553,6 +607,8 @@ ijk
 ### Agent
 
 ### Engineering and project
+
+**Code notice**
 
 
 
