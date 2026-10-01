@@ -272,8 +272,8 @@ SwiGLU: SiLU = x * sigmoid(x), smooth ReLU
 Rotary position embedding (RoPE)<br>
 &emsp;&emsp;Not absolute positions / sin-cos positional basis with negative exponents and fractional dimensions; x, y rotated by R(m, θ); applied before attention<br>
 &emsp;&emsp;Positional attention depends on the relative position R(m-n) / reduces the positional disturbance to the original attention; positional relations over long sequences; position affects attention but not v / v is not encoded<br>
-&emsp;&emsp;e^(iθ): rotation as a coordinate transformation / cos θ + i sin θ (Euler's formula)<br>
-&emsp;&emsp;Rotating the coordinates of a d-dimensional vector / degrees of freedom explode; orthogonal 2D rotation / the most minimal form; length × single rotation / no physical meaning
+&emsp;&emsp;e^(iθ): rotation as a coordinate transformation / cos θ + i sin θ (Euler formula)<br>
+&emsp;&emsp;Rotating the coordinates of a d-dimensional vector / degrees of freedom explode; orthogonal 2D rotation / the most minimal form; length * single rotation / no physical meaning
 
 MHA / MQA / GQA<br>
 &emsp;&emsp;Multi-query attention / all heads share one KV matrix / less computation / but performance drops<br>
@@ -590,7 +590,126 @@ ijk
 
 ## Training & Inference Optimization
 
-### Data, device and algorithm
+### Data, device, algorithm
+
+Input and output length, number of inputs, throughput / data movement / weights and data<br>
+GPU memory, transfer between memory and GPU cores / data movement / bandwidth, compute<br>
+&emsp;&emsp;memory and compute caculations in section SFT and Pre-training<br>
+Optimization (below)
+
+**Quantization**
+
+Numeric formats<br>
+1 sign bit; 8 bits for the integer exponent with a bias offset; 23 bits for the binary fraction / decimal in [1, 2)<br>
+Half-precision float 5/10; BF16 8/7<br>
+INT8, INT4
+
+&emsp;&emsp;INT8 = FP32 original value / scale factor s + zero point z<br>
+&emsp;&emsp;Symmetric quantization: [-127, 127], z = 0<br>
+&emsp;&emsp;Asymmetric quantization: [-128, 127]<br>
+&emsp;&emsp;NF4 quantization / [0, 15] maps to [-1, 1], which maps to the normalized original value<br>
+&emsp;&emsp;Number of data points * 4 + the scale factor stored as a 32-bit float
+
+BF16: the default standard for mixed-precision training and saving of deep-learning parameters<br>
+BF16 for full fine-tuning and inference; BF16 LoRA; NF4 QLoRA; Q4 has good compatibility / NF4 for inference
+
+Quantization, low bit and integer arithmetic are fast<br>
+&emsp;&emsp;Round to the nearest integer; when out of range, either clip or promote to a higher-precision bit width; the scale unit also has to take part in the arithmetic; nonlinear functions must be handled / lookup table, or linear approximation, or leave them unquantized<br>
+&emsp;&emsp;&emsp;&emsp;The precision loss from dequantization does not affect the result much<br>
+When inference<br>
+Static quantization of the weights, dequantized at compute time<br>
+Quantized computation over both weights and activations<br>
+&emsp;&emsp;Dynamic quantization of activation inputs and outputs; static quantization of activations / computed in advance / faster inference<br>
+The embedding and the task output module are not quantized; they share the vocabulary weights
+
+Quantization formats<br>
+safetensors by default<br>
+bitsandbytes<br>
+Apart from the outliers, the rounding during dequantization shows no visible change or difference<br>
+Find the outliers; for int8, the outliers are not quantized and stay in fp16<br>
+&emsp;&emsp;NF4 / an improvement over int4 / QLoRA<br>
+&emsp;&emsp;Quantile quantization with a lookup table / matched against a Gaussian distribution / [-1, 1] mapped to [0, 15]<br>
+&emsp;&emsp;Per group of seq; the fp32 scale factor is stored on disk or in memory; second-level quantization over the scale factors of n groups<br>
+Inference only<br>
+&emsp;&emsp;GPTQ: static quantization; block-wise, group-wise quantization / reduces the occurrence of outliers<br>
+&emsp;&emsp;AWQ: GPTQ with per-layer quantization<br>
+&emsp;&emsp;llama.cpp: GGUF, a single-file format, not the general ones above; ollama supports GGUF only
+
+**Distributed parallel** GPUs training and inference
+
+Data parallel<br>
+&emsp;&emsp;DP: the data is split across GPUs, the model is replicated, and the gradients are summed and broadcast back to every replica<br>
+&emsp;&emsp;&emsp;&emsp;The primary GPU 0 sends and receives (n-1) units of data each way; each non-primary GPU handles 1 unit<br>
+&emsp;&emsp;Distributed DDP: because of GPU waiting and communication, the gradient results are partitioned across the number of GPUs — ring-allreduce<br>
+&emsp;&emsp;&emsp;&emsp;Compared with DP's parameter-server communication: bandwidth, ring topology, load<br>
+&emsp;&emsp;&emsp;&emsp;Communication time / volume is independent of the number of GPUs; in each stage every card does n-1 steps on 1/n of the data, in parallel<br>
+&emsp;&emsp;Gradient bucketing: gradients are computed and propagated layer by layer during backpropagation, instead of waiting for all of them to finish<br>
+&emsp;&emsp;DeepSpeed ZeRO (zero redundancy optimizer)
+
+Forward and backward passes are computed independently on each card; the gradient results are communicated<br>
+&emsp;&emsp;Communication without memory partitioning; allreduce sums and replicates<br>
+&emsp;&emsp;&emsp;&emsp;One implementation is ring-allreduce, split into the reduce-scatter and allgather stages - partitioned
+
+Mixed-precision GPU memory<br>
+Model weights 32 - replica 16 - forward activations (temporary) - loss - backward gradients 16 (temporary) - gradients 32 (temporary) - optimizer (optimizer states 32, model weights 32, updated)
+
+ZeRO-1: the optimizer is averaged; DDP holds n full copies of the weights / n-1 copies are redundant; the parameters are divided evenly by n, each part placed in its corresponding partition, all gather<br>
+ZeRO-2: on top of 1, for the gradients the allgather stage of ring-allreduce is removed<br>
+ZeRO-3: on top of 2, model partitioning with communication under data parallelism / not model parallelism<br>
+From 1 to 3: memory savings, communication overhead, and implementation complexity all increase
+
+Model parallel
+
+**FlashAttention**
+
+IO acceleration / operates in the fast SRAM, reducing HBM reads and writes and lowering the pressure on memory capacity and bandwidth<br>
+Memory (DRAM) / GPU memory (GDDR) - inside the GPU package - GPU memory (HBM) - inside the GPU core die - cache (SRAM) - compute cores CUDA and Tensor cores<br>
+&emsp;&emsp;SRAM, HBM, DRAM: communication cost decreases and capacity increases along this order<br>
+&emsp;&emsp;Memory or DRAM, GPU memory is essentially DRAM, while the CPU's sits outside the package<br>
+&emsp;&emsp;&emsp;&emsp;RTX GDDR, H100 / A100 HBM<br>
+&emsp;&emsp;Cache means SRAM; both CPUs and GPUs have it; CPU: L1 / L2 / L3; GPU: L0 / L1, shared memory, L2<br>
+&emsp;&emsp;&emsp;&emsp;CPU: large cache, few registers; GPU: small cache, a huge number of registers<br>
+&emsp;&emsp;RAM: SRAM, DRAM<br>
+&emsp;&emsp;Flash memory / flash / SSD
+
+Attention operates on small sequences one at a time, transferred within SRAM<br>
+&emsp;&emsp;But softmax needs the complete sequence<br>
+&emsp;&emsp;Safe softmax: exp(x - max)<br>
+&emsp;&emsp;In autoregressive order, maintain lists of x and max
+
+Bandwidth: the data-movement speed, the number of tokens transferred per unit time<br>
+&emsp;&emsp;With a lot of data you have to wait for the transfer<br>
+During generation the computation for a single token is tiny; all the data is moved from video memory to the compute units, and that time is far longer than the compute time<br>
+&emsp;&emsp;Prefill computation: the time to the first token, TTFT / time to first token<br>
+&emsp;&emsp;Generation, decode: the output TPOT / time per output token, or the interval ITL / inter-token latency<br>
+
+PyTorch SDPA (scaled dot-product attention) automatically selects the suitable computation<br>
+&emsp;&emsp;flash-attn: conditional and requires installation; memory-efficient: block-wise computation, requires installing xformers; math: built in<br>
+The transformers library requires it to be specified at model loading time: either flash-attn (requires installation) or PyTorch SDPA<br>
+DeepSpeed does not implement it itself; a parameter has to be set as a flag, and other libraries are still needed to enable it<br>
+accelerate: no direct relation<br>
+vLLM: available by default, no need to enable it, no need to install flash-attn
+
+**PagedAttention** vLLM
+
+GPU memory problems<br>
+&emsp;&emsp;Memory is allocated according to the maximum length, but the actually generated length is far shorter<br>
+&emsp;&emsp;The allocated memory is not used yet, and gets used gradually<br>
+&emsp;&emsp;Memory is allocated contiguously; fragments are left idle; not enough left to allocate
+
+The virtual-memory paging mechanism of the operating system: the KV cache is split into fixed-size blocks of 16 tokens, and a page table (block table) manages where the KV tokens are stored, making the layout non-contiguous and eliminating memory fragmentation<br>
+Shared KV cache / blocks: scenarios where the beginnings of the sequences are the same
+
+Inference frameworks such as vLLM: quantization, PagedAttention, distributed multi-GPU parallelism, FlashAttention, concurrency
+
+**Summary**<br>
+Quantization, KV cache PagedAttention, distributed parallel GPUs, FlashAttention<br>
+Concurrency optimization<br>
+&emsp;&emsp;Continuous batching: as soon as a request finishes it is removed and a new request is added<br>
+&emsp;&emsp;Prefill / decode separation<br>
+Same prefill cache<br>
+Context and memory management<br>
+Streaming output
 
 ### API
 
@@ -598,9 +717,37 @@ ijk
 
 ### Prompt
 
+**Prompt engineering**
+
+System prompt, user prompt: clear and specific requirements for the model<br>
+In-context learning (ICL) / diversity of the pre-training data and of the model parameters; few-shot learning; zero-shot learning<br>
+Chain of thought (CoT): the samples show thinking and reasoning; add a line saying think step by step
+
+CoT inspires the model rather than few-shot right/wrong examples; task planning<br>
+Search<br>
+&emsp;&emsp;Tree of thoughts (ToT): decompose into one step of thinking, candidate generation, evaluation by the large model / testing / voting on candidates, search algorithm<br>
+&emsp;&emsp;Breadth-first search (BFS), depth-first search (DFS)<br>
+&emsp;&emsp;Self-consistency: multi-path generation / top-k, top-p and temperature; vote for the one that appears most frequently
+
 ## Applications
 
 ### Multimodal
+
+Multimodal perception / input; a video is composed of image frames<br>
+&emsp;&emsp;Converting each modality into a text description / a dedicated model; information is lost<br>
+&emsp;&emsp;Native multimodality: an encoder for each modality + modality fusion + a large-model decoder; heavy computation, and modality fusion is difficult<br>
+Multimodal action<br>
+&emsp;&emsp;Screen and UI operation / screenshots as input<br>
+&emsp;&emsp;Text, external calls or other models, diffusion-based generation<br>
+Modality fusion -> flattening -> fully connected layer
+
+**ViT**<br>
+&emsp;&emsp;The pixels of a small patch are treated as a token; projection aligns them to dim; positional encoding / learnable<br>
+&emsp;&emsp;Add a class token / take the dim of the first one at the end; global average pooling (GAP) / seq_len to 1<br>
+
+**CLIP**
+
+**LLaVA**
 
 ### RAG
 
