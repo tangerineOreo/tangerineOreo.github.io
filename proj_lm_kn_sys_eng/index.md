@@ -16,6 +16,7 @@ title: Project
 System, understanding and code quick check of large model training, inference, applications and projects
 
 ## Catalog
+
 **Basis**
 - Origin & transformer
 - Machine learning and deep learning
@@ -43,6 +44,7 @@ System, understanding and code quick check of large model training, inference, a
 - Engineering and project
 
 ## Basis
+
 ### Origin & transformer
 
 **Token**  
@@ -87,6 +89,7 @@ Inference: batch, seq, dim/vocab; take the last row; custom random generation<br
 Inference during training: parameters remain unchanged
 
 ### Machine learning and deep learning
+
 **Principle**<br>
 Training set/model parameters, validation set/model hyperparameters/comparative model selection<br>
 Training error generalization error, model bias variance data noise, overfitting underfitting, model complexity data complexity regularization<br>
@@ -207,6 +210,7 @@ Text clustering, k-means, vector similarity in embedding space<br>
 Topic models / category classification / Latent Dirichlet Allocation (LDA), term frequency, bag-of-words, Bayesian inference / BERT / GPT, topic-word distributions / probabilities<br>
 
 ### Large model pre
+
 Emergent abilities: in-context learning, CoT, commonsense reasoning / logical reasoning, code, translation, instruction following, etc.<br>
 Scaling Law / model performance as a function of model parameter scale and data scale<br>
 Transformer-based<br>
@@ -298,7 +302,9 @@ Multi-token prediction<br>
 ### Code notice
 
 ## Traning
+
 ### Pre-training/CPT
+
 Pre-training from 0, or pick a base model and continue pre-training (CPT); dense models; MoE models / too large<br>
 Data acquisition / cleaning / pipeline; pre-training 1-15T tokens, CPT tens of billions of tokens / fine-tuning counted in numbers of samples; pre-training loss accumulated over both input and output; full training; total steps = tokens / (batch * seq_len); one step processes multiple batches; pre-training lr > CPT lr<br>
 Pre-training / fine-tuning / RL, evaluation and testing
@@ -339,6 +345,7 @@ OpenCompass: AIME math competition, Codeforces, MATH-500 math problems, MMLU gen
 Datasets Hugging Face
 
 ### MoE
+
 MoE / the outputs of multiple modules are summed by proportion; the gate network model outputs the proportions<br>
 &emsp;&emsp;nn.ModuleList (list []), shape operations and weighted computation<br>
 Sparse MoE / Switch Transformer / the switch selects an FFN<br>
@@ -346,9 +353,10 @@ Shared-expert sparse MoE / DeepSeek; torch.topk over the experts other than the 
 MoE activation 0.05 / 0.1 / 0.2
 
 ### SFT/instruct fine-tuning
-**Scenarios** for fine-tuning<br>
+
+Scenarios for fine-tuning<br>
 &emsp;&emsp;1. response style; 2. QA pairs; 3. domain knowledge; 4. code / math ability; 5. function call; 6. module enhancement in agents / workflows<br>
-**Differences** from pre-training<br>
+Differences from pre-training<br>
 &emsp;&emsp;QA data format, chat template<br>
 &emsp;&emsp;Loss computed on the answer only, zeroed out on the question<br>
 &emsp;&emsp;Data augmentation / adding noise / NEFTune: noise in the input space taken as 0-10 / sqrt(dim), uniform distribution U
@@ -400,7 +408,8 @@ Data synthesis<br>
 &emsp;&emsp;In industry: train a reward model or use rule-based rejection sampling to select the data for fine-tuning and RL<br>
 Multi-source data, multiple domains and personas, multiple QA styles + automatic augmentation and distillation-based generation + rule-based or model-based filtering
 
-**GPU memory calculation**<br>
+**GPU memory calculation**
+
 1 KB = 2^10 = 1024 B/ytes; 1 B/yte = 8 bits; the precision of a number: FP32 / FP16, i.e. 32 / 16 bits<br>
 Data volume: 1B = 1000^3; FP32 / FP16: 4GB / 2GB<br>
 GPU memory at inference<br>
@@ -433,6 +442,7 @@ Unsloth
 ### Reinforcement learning
 
 ## Training & Inference Optimization
+
 ### Data, device and algorithm
 
 ### API
@@ -442,6 +452,7 @@ Unsloth
 ### Prompt
 
 ## Applications
+
 ### Multimodal
 
 ### RAG
@@ -449,4 +460,14 @@ Unsloth
 ### Agent
 
 ### Engineering and project
+
+
+
+
+
+
+
+
+
+
 
