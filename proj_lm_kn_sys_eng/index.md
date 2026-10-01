@@ -44,7 +44,8 @@ System, understanding and code quick check of large model training, inference, a
 
 ## Basis
 ### Origin & transformer
-Token  
+
+**Token**  
 &emsp;&emsp;Tokenizer 123...1000... Length information but no dimensional attributes  
 &emsp;&emsp;&emsp;&emsp;Dense information, inability to handle polysemy, multi-word combinations  
 &emsp;&emsp;One-hot (1,0,0) Dimensional attributes but no length information  
@@ -52,9 +53,9 @@ Token
 Dimensionality reduction/compression facilitates 1D dimensionality increase/reconstruction of compressed data  
 Tokenizer first, then one-hot, followed by semantic space
 
-Matrix multiplication/Vector-matrix operations/Matrix effects determined by matrix/Spatial transformation/Spatial relationships/New coordinate system transformation/Linear point-to-point mapping/Dimensionality increase, decrease, rotation, scaling/Invariant inter-vector relationships
+**Matrix** multiplication/Vector-matrix operations/Matrix effects determined by matrix/Spatial transformation/Spatial relationships/New coordinate system transformation/Linear point-to-point mapping/Dimensionality increase, decrease, rotation, scaling/Invariant inter-vector relationships
 
-Neural networks/Non-linear spatial transformations/Dimension-increasing kernel functions/Hierarchical feature extraction with dimensionality changes  
+**Neural network**/Non-linear spatial transformations/Dimension-increasing kernel functions/Hierarchical feature extraction with dimensionality changes  
 &emsp;&emsp;Matrix operations/Dimensionality changes, parameters, as above  
 &emsp;&emsp;Activation functions/Non-linear/Non-one-to-one correspondence  
 Matrix operations/GPU
@@ -62,6 +63,7 @@ Matrix operations/GPU
 &emsp;&emsp;Fully connected networks cannot handle polysemy/Tensors parallel to network  
 &emsp;&emsp;Context required, leading to attention mechanisms
 
+**Attention**<br>
 1960s non-parametric attention/Distance kernel regression  
 &emsp;&emsp;Data (xi,yi) or vector y, query x  
 &emsp;&emsp;Scalar form f(x)=sum_i alpha(x,xi)*yi, attention weights alpha  
@@ -69,15 +71,15 @@ Parameterized attention/Introduction of learnable parameters
 Score/Similarity/Correlation of q·k, Weights/Softmax of scores  
 &emsp;&emsp;Score function design Wqk custom
 
-Structure  
+**Structure**  
 Encoder non-autoregressive, Decoder autoregressive, KV cross Q/Translation/decoder-only removed  
 Input encoding module/Embedding + positional semantics, Feature module, Task requirement module/Linear + Softmax  
 Attention, Fully connected feedforward 1ReLU2/+ResNet+Norm  
-Content  
 &emsp;&emsp;Attention position corresponds to V sequence semantic space influence  
 &emsp;&emsp;W matrix din=dout, Q matrix K matrix/sqrt(dout)/Vectors in QK are dout-dimensional independent N(0,1)/Product N(0,dout)  
 &emsp;&emsp;Din dimension split heads/Dout split heads, Feedforward dimensionality changes, Hidden layer d-task linear layer logits
 
+Feature of training inference<br>
 Training requires a mask, because attention carries historical information, and because we want teacher forcing with parallel loss computation, rather than feeding the sequences in one at a time and taking the last row (that works but is inefficient; batching successive prefixes one after another is also inefficient, worse than parallelism within a single sequence)<br>
 &emsp;&emsp;Each row is only affected by the history<br>
 Inference: batch, seq, dim/vocab; take the last row; custom random generation<br>
@@ -85,7 +87,7 @@ Inference: batch, seq, dim/vocab; take the last row; custom random generation<br
 Inference during training: parameters remain unchanged
 
 ### Machine learning and deep learning
-**Principle Data, Model, Objective Function**<br>
+**Principle**<br>
 Training set/model parameters, validation set/model hyperparameters/comparative model selection<br>
 Training error generalization error, model bias variance data noise, overfitting underfitting, model complexity data complexity regularization<br>
 Loss/objective function + regularization term/parameter term<br>
@@ -103,10 +105,19 @@ softmax/maximum entropy/e/log, summed entropy/multiple probabilities multiple cl
 Maximum likelihood/real-world dataset corresponding to theoretical distribution parameters, theoretical distribution/prior/unknown known/custom constraints<br>
 &emsp;&emsp;Objective: likelihood + prior<br>
 Probability corresponds to event occurrence, random variable takes self-determined values - event occurrence<br>
-From softmax to defining Noise Contrastive Estimation (NCE) function<br>
 Optimization constraint equivalence, L1 sparse solution/extreme values more likely on coordinate axes, L2 weight decay/during gradient update<br>
 Occam's razor/no L3 L4 Ln/Taylor expansion primary and secondary, no free lunch theorem<br>
+Monte Carlo<br>
+&emsp;&emsp;E[f(x)] = Integral(p\*f\*dx) = Discrete average f(xi) = Sum of probability * function<br>
 CNN local, RNN memory
+
+Linear model regression / Derivative = 0 yields an explicit solution<br>
+&emsp;&emsp;Perceptron / sign activation function +-1 / Batch size 1 update<br>
+Logistic sigmoid(x-y) = ex/(ex+ey)<br>
+Softmax and noise contrastive estimation, infoNCE
+
+KL directly measures the difference between distributions<br>
+When determining labels or distributions, cross-entropy is equivalent to the KL
 
 &emsp;&emsp;Information **Entropy**<br>
 &emsp;&emsp;&emsp;&emsp;Quantification of information; definition f(xy)=f(x)+f(y), i.e., -log2(x), where 2 represents bits<br>
@@ -115,21 +126,15 @@ CNN local, RNN memory
 &emsp;&emsp;Relative Entropy / KL Divergence<br>
 &emsp;&emsp;&emsp;&emsp;Cumulative pi\*log(pi/qi) / Cross-entropy minus sampling baseline information entropy<br>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Gibbs inequality / Relative entropy KL > 0, -KLpq != KLqp<br>
-&emsp;&emsp;&emsp;&emsp;Cross-entropy Loss accumulates over quantity / Baseline is the sample, accumulating multiple probability labels<br>
-When determining labels or distributions, cross-entropy is equivalent to the KL<br>
-KL divergence directly measures the difference between distributions
+&emsp;&emsp;&emsp;&emsp;Cross-entropy Loss accumulates over quantity / Baseline is the sample, accumulating multiple probability labels
 
+**Data structure**<br>
 [...[...[1,2,3],[]...]...] Vectors compose tensors<br>
 Ax = lambda x: Matrix space transformation and eigenvalues; direction unchanged / eigenvectors<br>
 Derivatives of Scalar/Vector(m,1)/Matrix(m,l) with respect to Scalar/Vector(n,1)/Matrix(n,k): (m,n), (m,k,n), (m,l,n), (m,l,k,n)<br>
 Forward formula computes and stores values; backward partial derivatives are used for computation<br>
 &emsp;&emsp;Automatic differentiation: Differentiable/Explicit derivation vs. Numerical differentiation<br>
 &emsp;&emsp;Chain rule / With respect to the finally updated parameters<br>
-Linear model regression / Derivative = 0 yields an explicit solution<br>
-&emsp;&emsp;Perceptron / sign activation function +-1 / Batch size 1 update<br>
-Monte Carlo<br>
-&emsp;&emsp;E[f(x)] = Integral(p\*f\*dx) = Discrete average f(xi) = Sum of probability * function<br>
-Logistic sigmoid(x-y) = ex/(ex+ey)<br>
 Bias b is a one-dimensional vector
 
 **Weight Decay**<br>
@@ -159,7 +164,7 @@ Regularization is used for training, balancing model and data/fitting/generaliza
 &emsp;&emsp;&emsp;&emsp;Wide parameter interval is insensitive to learning rate<br>
 &emsp;&emsp;&emsp;&emsp;Direction and step size, stable and fast, automatic speed adjustment
 
-**Reinforcement Learning Framework**/agent policy action a, environment state reward<br>
+**Reinforcement Learning**/agent policy action a, environment state reward<br>
 &emsp;&emsp;Experience sarsa updating network, independent, current s policy action<br>
 &emsp;&emsp;On-policy/off-policy/training policy vs selection time/behavior vs target policy/arbitrary historical randomness<br>
 &emsp;&emsp;&emsp;&emsp;Unrelated to offline/online/concept is vague, distinction between policy historical data and historical policy<br>
@@ -173,7 +178,7 @@ v=E[q]=integral pi\*q<br>
 &emsp;&emsp;Gradient/derivative<br>
 &emsp;&emsp;&emsp;&emsp;First approximate then derive, sampling from pi distribution, pi\*q sum is biased estimation, q average is unbiased but no parameter derivative<br>
 &emsp;&emsp;&emsp;&emsp;So first derive then approximate, policy gradient logarithm<br>
-Bellman Equation QQ/QV/VV<br>
+Bellman Equation QQ/QV/VV
 
 ### Language model
 
