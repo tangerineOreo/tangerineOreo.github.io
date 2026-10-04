@@ -363,6 +363,21 @@ torch, torch.nn<br>
 torch.nn.functional: no learnable parameters / pure computation<br>
 dataset and dataloader from torch.utils.data
 
+utils.data.dataset: an abstract base class, _ getitem _ has no fixed format<br>
+&emsp;&emsp;A processor can be passed in<br>
+DataLoader has no requirements on the dataset format, and processes on the fly: DataLoader(dataset, ..., collate_fn / collator)<br>
+&emsp;&emsp;The default / without a collate_fn, only the supported formats get stacked from samples into tensors<br>
+datasets.Dataset has more features<br>
+&emsp;&emsp;After .map the data can be saved<br>
+&emsp;&emsp;When used with the default DataLoader, mind the format: dicts and tensors<br>
+Trainer is equivalent to a DataLoader in a loop; internally it calls the DataLoader / through train_dataset and the various data_collators, etc.<br>
+<br>
+PreTrainedModel<br>
+&emsp;&emsp;Inherits from nn.Module, supports DataLoader<br>
+&emsp;&emsp;Supports Trainer; returns more than nn.Module / has loss, etc.; has a generate function<br>
+&emsp;&emsp;Rich supported features and parameters; ecosystem support / across the various frameworks and libraries<br>
+&emsp;&emsp;Bound to a config; loaded as MyCustomModel together with MyCustomConfig; AutoModel & AutoModelFor... and AutoConfig load it correspondingly after registration
+
 AutoModel choice / pre-trained model / no task output / base / BertModel<br>
 AutoModelFor / pre-trained model / has a task output module but no input module<br>
 &emsp;&emsp;CausalLM decoder, Seq2SeqLM encoder-decoder, encoder / with task output / others<br>
@@ -930,6 +945,12 @@ llava.model
 ### RAG
 
 ### Agent
+
+Server tools, or local<br>
+
+ReAct: prompt-based, explicitly showing reasoning (thought) + action + observation<br>
+Plan - execute - reflect<br>
+Autonomous loop / AutoGPT: compares the gap between the result and the goal, and dynamically generates new subtasks
 
 ### Engineering and project
 
