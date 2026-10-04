@@ -581,7 +581,27 @@ White-box knowledge distillation: the distribution of the large model, KL<br>
 
 **Implementation of distillation**
 
-ijk
+mediacrawler<br>
+&emsp;&emsp;Enter the project directory and create a virtual environment to run<br>
+<br>
+Define a function to extract a list of questions from input text with OpenAI<br>
+&emsp;&emsp;Large model API involvement, output format setting, and JSON schema<br>
+&emsp;&emsp;Determine and filter whether the JSON output is correct<br>
+<br>
+extract_questions.py<br>
+&emsp;&emsp;Read the text field of JSON<br>
+&emsp;&emsp;Define a thread pool for multi-threaded processing of the extraction function and input text, with tqdm for progress visualization<br>
+&emsp;&emsp;Write results to JSON<br>
+<br>
+Data deduplication<br>
+Vector similarity greater than 0.9, using cosine, Euclidean distance, dot product, TF, TF-IDF<br>
+&emsp;&emsp;Client and embedding model calling API, or calling local library functions<br>
+&emsp;&emsp;Define a function to calculate similarity<br>
+&emsp;&emsp;Define a function to read files and compare each one with existing texts in the list one by one for similarity<br>
+<br>
+Generate answers<br>
+&emsp;&emsp;Load the question file, large model API returns answers, multi-threaded<br>
+&emsp;&emsp;Write the question-answer pair dictionary list to JSON
 
 ### Reinforcement learning
 
@@ -721,10 +741,20 @@ Model weights 32 - replica 16 - forward activations (temporary) - loss - backwar
 
 ZeRO-1: the optimizer is averaged; DDP holds n full copies of the weights / n-1 copies are redundant; the parameters are divided evenly by n, each part placed in its corresponding partition, all gather<br>
 ZeRO-2: on top of 1, for the gradients the allgather stage of ring-allreduce is removed<br>
-ZeRO-3: on top of 2, model partitioning with communication under data parallelism / not model parallelism<br>
+ZeRO-3: on top of 2, model partitioning with communication under data parallel / not model parallel<br>
+&emsp;&emsp;data parallel with model parallel / but the complete model can still be held / partitioned, with the complete model present temporarily / communication happens as the computation proceeds<br>
 From 1 to 3: memory savings, communication overhead, and implementation complexity all increase
 
-Model parallel
+Model / parameter-weight parallel: each card holds only a part / the parameter weights are not communicated<br>
+&emsp;&emsp;Tensor parallel (TP): intra-layer parallel / a single card cannot fit one layer, so the weight matrix is split<br>
+&emsp;&emsp;&emsp;&emsp;Linear algebra composed of rows / columns: row parallel / column parallel, with the results aggregated<br>
+&emsp;&emsp;Pipeline parallel (PP): layers and batches in series / in time order / output values passed along; the non-triangular region achieves a parallel effect<br>
+<br>
+3D parallel: data, tensor, pipeline<br>
+<br>
+Sequence parallel: the sequences communicate with each other during attention computation<br>
+<br>
+MoE expert parallel (EP): the different experts are independent / naturally parallel across cards, all-to-all communication<br>
 
 **FlashAttention**
 
@@ -777,6 +807,31 @@ Same prefill cache<br>
 Context and memory management<br>
 Streaming output
 
+**Implementation of distributed trainning accelerate deepspeed**
+
+Using deepspeed with accelerate requires installing deepspeed first, and deepspeed requires CUDA toolkit<br>
+<br>
+accelerate config or yaml, huggingface documentation and github examples<br>
+&emsp;&emsp;deepspeed config and json<br>
+torch.utils.data's TensorDataset inherits Dataset, packaging in-memory tensor data into tuples<br>
+model, dataloader, optimizer = accelerator.prepare(model, dataloader, optimizer)<br>
+...change loss.backward to accelerator.backward(loss)<br>
+<br>
+Launch from command line accelerate launch --config_file ./xxx.yaml train.py<br>
+Display GPU memory with nvidia-smi<br>
+<br>
+@dataclass defines a class with built-in initialization, etc.<br>
+dataclasses library .field() some special requirements for fields<br>
+parser = HfArgumentParser(dataclassarg, TrainingArguments) hugging face command line argument parser not instantiated<br>
+args, training_args = parser.parse_args_into_dataclasses() read command line arguments and instantiate<br>
+&emsp;&emsp;parser can .add_argument, but not in dataclass, the latter is recommended<br>
+Command line instructions and parameters .sh shell file<br>
+&emsp;&emsp;Linux terminal autodl chmod for execution permission and nohup for background running, Windows does not have this
+
+**Implementation of vLLM**
+
+ijk
+
 ### API
 
 ### Function call
@@ -808,12 +863,69 @@ Multimodal action<br>
 Modality fusion -> flattening -> fully connected layer
 
 **ViT**<br>
-&emsp;&emsp;The pixels of a small patch are treated as a token; projection aligns them to dim; positional encoding / learnable<br>
-&emsp;&emsp;Add a class token / take the dim of the first one at the end; global average pooling (GAP) / seq_len to 1<br>
+The pixels of a small patch are treated as a token; projection aligns them to dim; positional encoding / learnable<br>
+Add a class token / finally take the dim of the first one; global average pooling (GAP) / seq_len to 1<br>
+ViT positional encoding (1, N+1, D); N+1 because there is one extra cls token carrying the class features
 
 **CLIP**
 
+Data: 400 million text-image pairs<br>
+Contrastive learning on the similarity / difference between the text and image vectors<br>
+&emsp;&emsp;The vector output by the text encoder / BERT, and the vector output by the image encoder / ViT<br>
+&emsp;&emsp;The similarity matrix of n texts and n images is n*n; the target matrix has 1 on the diagonal and 0 elsewhere<br>
+&emsp;&emsp;&emsp;&emsp;Cross-entropy against the target, bidirectional: text to image, and image to text<br>
+Multiple images in one batch
+
+At inference, a natural-language prompt can improve and influence the image matching, no longer fixed labels<br>
+Using CLIP: fine-tune by adding a new linear layer for the classification output, or fine-tune the whole model in full
+
 **LLaVA**
+
+Image-caption text data augmentation: based on the image and the caption, an existing large model raises questions and answers them in detail<br>
+&emsp;&emsp;The system prompt in slides<br>
+&emsp;&emsp;The types of augmented, generated QA: conversation 58k, detailed description 23k, complex reasoning 77k
+
+Model structure: image encoder - a learnable projection for alignment / a linear layer is the simplest, text input, large model<br>
+Two stages of training<br>
+&emsp;&emsp;Freeze the image encoder (CLIP's ViT) and the large model except for the final output; pre-train the projection layer<br>
+&emsp;&emsp;&emsp;&emsp;Training data: CC3M, image-text pairs<br>
+&emsp;&emsp;&emsp;&emsp;Loss on the text input and output<br>
+&emsp;&emsp;&emsp;&emsp;There is an <image> placeholder, which is replaced by the feature sequence when the model processes it<br>
+&emsp;&emsp;Freeze the image encoder (CLIP's ViT); instruction-tune the projection layer and the large model<br>
+&emsp;&emsp;&emsp;&emsp;QA data augmented and generated by GPT-4: images, multi-turn QA<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;The first turn takes the image and the question, or the question and the image — the order does not matter<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Later turns take the question only<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;The conversation history is concatenated with <stop> as the training input<br>
+&emsp;&emsp;&emsp;&emsp;ScienceQA dataset: single-turn QA with the reasoning process + the result
+
+LLaVA-1.5: more datasets added / yes-no image questions; besides the cropped image, the encoder also takes the original whole image
+
+**Multimodel data**
+
+Contrastive learning: the text / vision encoder, BERT / ViT trained from scratch, image-text pairs, hundreds of millions to billions of samples<br>
+Pre-training: cross-modal alignment, the projection layer, image-text pairs, millions to tens of millions of samples<br>
+SFT: language ability, QA ability, the projection layer + LLM, image - multi-turn QA<br>
+&emsp;&emsp;Full fine-tuning: thousands to hundreds of thousands of samples<br>
+&emsp;&emsp;LoRA for users: thousands of samples<br>
+For a specific category or domain, the number of training samples drops accordingly
+
+**Implementation of LLaVA**
+
+Define the train function within one epoch<br>
+Define the learning rate cosine annealing, progressing with the timestep, a function of the timestep<br>
+batch, image_nums, 3, len, wide: the image processor tensor
+
+Define the function for model loading<br>
+Freeze the model parameters: .requires_grad=False
+
+Model<br>
+clip.vision_model<br>
+The features replace the <image> placeholder
+
+Pre-training for alignment: epochs=1, batch=256-512<br>
+SFT loads the pre-trained model
+
+llava.model
 
 ### RAG
 
@@ -827,6 +939,7 @@ pass: an empty placeholder<br>
 yield: produces a value and continues / differs from return<br>
 while: stop condition: iteration condition<br>
 break exits the loop; continue ends the current iteration and moves on<br>
+Backslash \: line continuation; escape characters<br>
 <br>
 max / argmax: the size of the specified dimension is reduced to 1; whether to keep that dimension, default keepdim=False<br>
 <br>
@@ -837,8 +950,8 @@ A yaml file loaded into a dict; json<br>
 <br>
 a[] tensor indexing, dict indexing, list indexing, tuple indexing / a tuple cannot be modified<br>
 The set type set(); zip(,,) over different iterables forms an iterable of tuples; enumerate(x) returns an iterable of tuples of the index and the element of x<br>
-[,] lists, arrays<br>
-<br>
+[,] lists, arrays
+
 Tensor dimension operations<br>
 <br>
 A tensor with requires_grad=True: gradient storage and whether it is differentiable<br>
@@ -852,7 +965,36 @@ A forward pass through the network stores the history and the outputs<br>
 <br>
 Hyperparameters formatted with argparse<br>
 def main(args)<br>
-main(opt)<br>
+main(opt)
+
+@staticmethod<br>
+The function is not bound to the class or the instance, cannot be inherited, and cannot access the variables in the class via self / it can access them explicitly; both the class and the instance can call the function via self<br>
+<br>
+A function defined inside a function can use the variables of the outer function<br>
+<br>
+super()._ init _: when the inherited class takes arguments, they have to be passed in, or the remaining arguments are passed as a dict<br>
+Keep the parameters of initialization and instantiation separate from the parameters of the class's other functions<br>
+<br>
+Variables defined in a Python class must have a value, or be initialized with a value in _ init _, or receive a value at instantiation<br>
+dataclasses and pydantic allow a variable to have only a type annotation without a value
+
+os.environ['key']='' reads environment variables; the api key differs across platforms; different virtual environments do not interfere<br>
+&emsp;&emsp;Whether the variables are public when the project is open-sourced
+
+epoch: the number of times the dataset is trained on<br>
+Memory usage is shown by nvidia-smi<br>
+<br>
+enumerate(dataloader) adds its own id / timestep<br>
+&emsp;&emsp;for step, batch in<br>
+&emsp;&emsp;x, y = batch<br>
+for pg in optimizer.param_groups: the optimizer's parameter groups, used to update the learning rate<br>
+&emsp;&emsp;pg['lr'] = lr<br>
+<br>
+with ctx, the short form of with ...:, mixed precision 16, fp16 / bf16 chosen automatically according to the device or specified manually<br>
+&emsp;&emsp;Forward pass, loss<br>
+Backward pass, gradients; the loss has to be scaled up to keep the gradients from falling below the 16-bit lower limit<br>
+Update after the accumulated number of steps<br>
+The Trainer in the transformers library specifies mixed precision
 
 
 
