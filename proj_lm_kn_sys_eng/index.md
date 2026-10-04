@@ -345,7 +345,73 @@ Datasets Hugging Face, modelscope
 
 **Implementation notice**
 
-ijk
+transformers built on PyTorch nn<br>
+&emsp;&emsp;PreTrainedModel: the base class inherits from nn.Module, PretrainedConfig: the base class<br>
+&emsp;&emsp;Trainer, TrainingArguments<br>
+&emsp;&emsp;AutoProcessor: a smart input processor / text, image, multimodal, audio; AutoModel: a generic model / the task output module is not loaded<br>
+&emsp;&emsp;AutoTokenizer loads the tokenizer; AutoModelForCausalLM<br>
+&emsp;&emsp;/modeling_outputs: the various output classes / wrap and return hiddens - dim - fully connected - vocab - logits, before normalization into probabilities; loss, attention, kv, etc.<br>
+&emsp;&emsp;&emsp;&emsp;Loading a model maps to these automatically; when defining a model you have to return and call them<br>
+&emsp;&emsp;&emsp;&emsp;CausalLMOutput / WithPast: the output structure used when the KV cache is enabled<br>
+&emsp;&emsp;data_collator<br>
+&emsp;&emsp;&emsp;&emsp;default<br>
+&emsp;&emsp;&emsp;&emsp;with_padding: dynamic per sample / static global via the tokenizer; the dataset is required to have labels / SFT<br>
+&emsp;&emsp;&emsp;&emsp;ForLanguageModeling: mlm=True/False corresponds to BERT / GPT pre-training<br>
+The tokenizers library / if the tokenizer is customized<br>
+<br>
+torch, torch.nn<br>
+torch.nn.functional: no learnable parameters / pure computation<br>
+dataset and dataloader from torch.utils.data
+
+AutoModel choice / pre-trained model / no task output / base / BertModel<br>
+AutoModelFor / pre-trained model / has a task output module but no input module<br>
+&emsp;&emsp;CausalLM decoder, Seq2SeqLM encoder-decoder, encoder / with task output / others<br>
+<br>
+model(**input): input and output are dicts; pass the dict as arguments or pass the dict in; supports object. / dict[]<br>
+model.generate: autoregressive calls to model() for logits; the output is an ids sequence tensor, optionally a dict with multiple outputs; batch decode afterwards<br>
+&emsp;&emsp;self(input,)<br>
+&emsp;&emsp;Takes probabilities and temperature, repetition suppression / penalty<br>
+<br>
+Loading the tokenizer binds the model and the special text tokens<br>
+tokenizer.encode unifies the types across tokenizers; string or list input, dict output / the values are tensors, 1D / 2D<br>
+&emsp;&emsp;The tokenizer's output dict supports object. / dict[]<br>
+tokenizer.decode / batch_decode: id sequence input / a list or a tensor both work, string or list output, 1D / 2D<br>
+The model output includes the input part; the pipeline output for multiple sentences is a list of dicts, [0]['generated_text'] / optionally show only the answer<br>
+<br>
+Sequence-length padding is only used when batching / aligning dimensions and shapes<br>
+&emsp;&emsp;The attention_mask parameter / model(,)<br>
+tokenizer padding_side defaults to right / can be changed; GPT / llama recommend left
+
+Trainer training: if the loss is customized, inherit from Trainer and override compute_loss, or return it from model.forward<br>
+<br>
+The datasets library<br>
+&emsp;&emsp;Load datasets from the hub or locally<br>
+&emsp;&emsp;&emsp;&emsp;Format: built-in automatic splitting into train and test sets, specifying a split, or when the format has no split, loading it automatically gives 'train'<br>
+&emsp;&emsp;After loading, .map(f), where f is the processing function / or returns a processor / tokenizer / feature extractor<br>
+datasets.Dataset and DatasetDict match the format but do not inherit from utils<br>
+dataset.map(, remove_columns), dataset.remove_columns([''])
+
+The nn.Parameter class / participates in updates / is registered in the model / it is a subclass of torch.Tensor, which does not participate in updates and is not registered<br>
+&emsp;&emsp;self.weight / bias / name = nn.Parameter(...) constructs the parameters of one layer<br>
+(full path of the parameter name, parameter) tuples / for name, param in model.named_parameters()<br>
+&emsp;&emsp;.parameters() gives only the parameters without names / implemented through the .named_parameters() call<br>
+A dict of parameter names to parameters / for name in model.state_dict().keys()<br>
+<br>
+/ nn.init defines how the network parameters are initialized<br>
+<br>
+trainer.save_model() calls model.save_pretrained to save the weights and the config, which in turn calls torch.save<br>
+&emsp;&emsp;torch.save saves only the weights, not config.json: the architecture, including identifiers / network structure / training and inference settings / paths, etc. / can be written by hand<br>
+<br>
+init self. appears in the state_dict, and can therefore be saved and trained<br>
+<br>
+Using the same self. layer multiple times means it is shared / the same single memory address / in the actual structure it is still one layer<br>
+Assigning by index replaces the layer<br>
+Layers are defined through nn.Module's forward<br>
+<br>
+print(model) prints the structure, including parameter-free layers that are not considered layers from an engineering standpoint<br>
+model.named_parameters(): parameters and gradients, freezing layers, per-layer learning rates / grouped parameter lists, parameter counts<br>
+&emsp;&emsp;print(name) weight/bias, print(param.shape), param.requires_grad<br>
+model.fc1.weight / bias.data / grad; with nn.ModuleList / Sequential it is model[i].weight / bias
 
 ### MoE
 
@@ -757,6 +823,36 @@ Modality fusion -> flattening -> fully connected layer
 
 **Code notice**
 
+pass: an empty placeholder<br>
+yield: produces a value and continues / differs from return<br>
+while: stop condition: iteration condition<br>
+break exits the loop; continue ends the current iteration and moves on<br>
+<br>
+max / argmax: the size of the specified dimension is reduced to 1; whether to keep that dimension, default keepdim=False<br>
+<br>
+\*a / in a function definition: extra positional arguments / packed into a tuple; at a function call: a list or tuple unpacked into positional arguments / passed in order<br>
+\*\*a / in a function definition: extra keyword arguments / packed into a dict; at a function call: a dict unpacked into keyword arguments / matched by argument name<br>
+<br>
+A yaml file loaded into a dict; json<br>
+<br>
+a[] tensor indexing, dict indexing, list indexing, tuple indexing / a tuple cannot be modified<br>
+The set type set(); zip(,,) over different iterables forms an iterable of tuples; enumerate(x) returns an iterable of tuples of the index and the element of x<br>
+[,] lists, arrays<br>
+<br>
+Tensor dimension operations<br>
+<br>
+A tensor with requires_grad=True: gradient storage and whether it is differentiable<br>
+nn parameters are enabled by default<br>
+Calling .backward() multiple times accumulates the gradients<br>
+<br>
+Function decorator @; temporary resource management with f():; gradients: torch.inference_mode (stricter) / torch.no_grad<br>
+Separate: model.eval() / e.g. turning off dropout<br>
+<br>
+A forward pass through the network stores the history and the outputs<br>
+<br>
+Hyperparameters formatted with argparse<br>
+def main(args)<br>
+main(opt)<br>
 
 
 
