@@ -393,6 +393,11 @@ tokenizer.encode unifies the types across tokenizers; string or list input, dict
 tokenizer.decode / batch_decode: id sequence input / a list or a tensor both work, string or list output, 1D / 2D<br>
 The model output includes the input part; the pipeline output for multiple sentences is a list of dicts, [0]['generated_text'] / optionally show only the answer<br>
 <br>
+tokenizer_template(message, add_generation_prompt: needed for inference / for training the answer is already there and gets concatenated<br>
+&emsp;&emsp;tools<br>
+&emsp;&emsp;tokenizer=true, pt, return_dict gives the attention_mask<br>
+&emsp;&emsp;Or apply the template first and then pass it to the tokenizer, which also has other parameters<br>
+<br>
 Sequence-length padding is only used when batching / aligning dimensions and shapes<br>
 &emsp;&emsp;The attention_mask parameter / model(,)<br>
 tokenizer padding_side defaults to right / can be changed; GPT / llama recommend left
@@ -687,7 +692,7 @@ Dataset for distilling a large model to train a small model<br>
 
 **Implementation of RL**
 
-ijk
+trl, verl
 
 ## Training & Inference Optimization
 
@@ -769,7 +774,7 @@ Model / parameter-weight parallel: each card holds only a part / the parameter w
 <br>
 Sequence parallel: the sequences communicate with each other during attention computation<br>
 <br>
-MoE expert parallel (EP): the different experts are independent / naturally parallel across cards, all-to-all communication<br>
+MoE expert parallel (EP): the different experts are independent / naturally parallel across cards, all-to-all communication
 
 **FlashAttention**
 
@@ -822,6 +827,18 @@ Same prefill cache<br>
 Context and memory management<br>
 Streaming output
 
+Inference frameworks such as vLLM support multiple GPUs and multiple models<br>
+&emsp;&emsp;Multiple GPUs with multiple instances and ports; a single GPU with multiple instances and ports<br>
+&emsp;&emsp;vllm-router: one port, multiple models<br>
+&emsp;&emsp;The same base model + multiple LoRAs<br>
+&emsp;&emsp;Offline inference / without enabling HTTP: model_a/b = vllm.LLM(model='') to load the model<br>
+<br>
+Multi-threading is limited by Python's GIL; multi-processing blows up the memory; single-threaded asynchronous scheduling<br>
+Waiting for a result: async / sync; multiple at the same time: concurrency, not parallelism / multi-process parallelism<br>
+When a synchronous function has to wait for the result: asyncio.to_thread<br>
+<br>
+gradient_checkpointing: trading time for space; during training, activations are computed on the fly and only partially saved
+
 **Implementation of distributed trainning accelerate deepspeed**
 
 Using deepspeed with accelerate requires installing deepspeed first, and deepspeed requires CUDA toolkit<br>
@@ -845,15 +862,84 @@ Command line instructions and parameters .sh shell file<br>
 
 **Implementation of vLLM**
 
+Install the CUDA toolkit with conda: when writing CUDA C++, or when installing flash-attention / xformers / deepspeed and other low-level packages that need to be compiled<br>
+&emsp;&emsp;The PyTorch installation includes cuDNN and the CUDA runtime, but not the compilation part
+
+pip install vllm<br>
+&emsp;&emsp;vLLM is asynchronous by nature; internally it uses asyncio + FastAPI and the OpenAI API<br>
+&emsp;&emsp;The API is the HTTP-layer protocol / HTTP has no sync-vs-async distinction, it is irrelevant<br>
+&emsp;&emsp;Sync vs. async in OpenAI refers to the client<br>
+Running the local model with vLLM<br>
+&emsp;&emsp;On the server terminal: vllm serve \ --model path \ --served-model-name \ --port \ — the backslash continues the line<br>
+&emsp;&emsp;&emsp;&emsp;vllm serve = python -m vllm.entrypoints.openai.api_server<br>
+&emsp;&emsp;On the client, in an IDE file: client = openai(...); the url supports localhost v1, and api_key can be filled with any non-empty string<br>
+&emsp;&emsp;&emsp;&emsp;.create(model model-name, message, ...)<br>
+&emsp;&emsp;Or curl from a non-server machine, with OpenAI parameters<br>
+Or vllm.LLM and SamplingParams to load the model path and control the generation<br>
+&emsp;&emsp;When vLLM is not needed, other libraries can also load and use the model
+
+curl url/models to view the list of models<br>
+&emsp;&emsp;Deploying multiple models requires Docker packaging
+
+Outside the server<br>
+AutoDL instance - custom service; ssh on Windows, Linux / Mac, with a password; on the command line, local port 8000 maps to the server's localhost:xxx<br>
+&emsp;&emsp;curl url/models<br>
+An enterprise-verified domain name; users use the url directly
+
+**Concurrency**
+
 ijk
 
 ### API
 
+client = openai() with api_key and base_url<br>
+output = client.chat.completions.create<br>
+&emsp;&emsp;The message style: role, content<br>
+&emsp;&emsp;output.: several answer candidates, choices[0].message.content<br>
+&emsp;&emsp;Sampling generation: max number of tokens / temperature / top-p / top-k / repetition penalty
+
+Streaming output: stream=true, for chunk, for event in stream
+
+Structured output<br>
+&emsp;&emsp;response_format with a json schema<br>
+&emsp;&emsp;&emsp;&emsp;Written by hand, or fm.model_json_schema()<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;fm is a class based on pydantic.BaseModel: annotated types, pydantic.Field descriptions<br>
+&emsp;&emsp;Alibaba Cloud Model Studio (Bailian) output format settings; writing the format in the prompt
+
+Some models, e.g. reasoning models, do not support function call, json output, generation control
+
 ### Function call
 
-### Prompt
+tools: function call<br>
+Whether a function needs to be called: no / text output; yes / call the function<br>
+The tools list, the tool dict<br>
+&emsp;&emsp;type function; name; description: a detailed description; parameters / type / properties / required<br>
+Manually add the conversation history to the message<br>
+&emsp;&emsp;role assistant with message.tool_calls as a list of dicts; parse and extract the function name and arguments; the execution result; role tool with the result format; role assistant with message.content as the answer; content and tool_calls are mutually exclusive
 
-**Prompt engineering**
+&emsp;&emsp;transformers library loads model<br>
+&emsp;&emsp;input_text = tokenizer.apply_chat_template(message, tools=tools,<br>
+&emsp;&emsp;model generation format comes from the system prompt<br>
+&emsp;&emsp;tokenizer.decode<br>
+&emsp;&emsp;Parse whether it is a tool call or a text output, and extract the function name and the arguments
+
+&emsp;&emsp;It is recommended to use the API, or the API service of an inference framework<br>
+function and the arguments / equivalent to rewriting the input, or producing an output
+
+The chat completions protocol<br>
+&emsp;&emsp;message<br>
+&emsp;&emsp;tool is custom, in schema format<br>
+&emsp;&emsp;Executed and added manually<br>
+&emsp;&emsp;Generally compatible across models<br>
+The responses protocol<br>
+&emsp;&emsp;input, instruction<br>
+&emsp;&emsp;The output is items, including message and the intermediate multi-step process: planning, executing, results, reflecting, looping<br>
+&emsp;&emsp;tool: custom + built-in + MCP server; in schema format or by built-in name; built-in web search / file search / code interpreter / computer use<br>
+&emsp;&emsp;Completes the process automatically<br>
+&emsp;&emsp;Some model vendors are not compatible; vLLM and others are not compatible<br>
+The tool schema differs between the two protocols
+
+### Prompt
 
 System prompt, user prompt: clear and specific requirements for the model<br>
 In-context learning (ICL) / diversity of the pre-training data and of the model parameters; few-shot learning; zero-shot learning<br>
@@ -864,6 +950,19 @@ Search<br>
 &emsp;&emsp;Tree of thoughts (ToT): decompose into one step of thinking, candidate generation, evaluation by the large model / testing / voting on candidates, search algorithm<br>
 &emsp;&emsp;Breadth-first search (BFS), depth-first search (DFS)<br>
 &emsp;&emsp;Self-consistency: multi-path generation / top-k, top-p and temperature; vote for the one that appears most frequently
+
+Prompt engineering framework<br>
+Components: instruction, context / background, output format<br>
+Enhancement techniques: few-shot, CoT, self-consistency
+
+Writing: symbols, tags, the all-purpose-yet-not-all-purpose template .md<br>
+&emsp;&emsp;Task instruction<br>
+&emsp;&emsp;Background context<br>
+&emsp;&emsp;The input data to be processed<br>
+&emsp;&emsp;Requirements<br>
+&emsp;&emsp;Output format and structure template<br>
+&emsp;&emsp;Examples<br>
+&emsp;&emsp;The reasoning process
 
 ## Applications
 
@@ -944,13 +1043,46 @@ llava.model
 
 ### RAG
 
+Up-to-date information, professional document libraries to reinforce professional standards, enterprise local data<br>
+Requires customization, and has to rely on the model's own answering ability<br>
+<br>
+Document parsing - chunking - vectorization / indexing / storing into the database<br>
+query - embedding - retrieval matching - retrieval results<br>
+The retrieval results serve as the context for generating the answer<br>
+<br>
+Without building a RAG: code, personal knowledge and experience, etc. — lightweight<br>
+Retrieval speed: graph RAG < tree RAG < RAG
+
+Chunking effectiveness<br>
+&emsp;&emsp;Affects semantic completeness<br>
+&emsp;&emsp;The smaller the chunk, the more precise the similarity<br>
+Rule-based chunking: fixed length, headings and paragraphs, complete sentences with overlap<br>
+Semantic chunking<br>
+&emsp;&emsp;Compare the similarity of two chunks; merge them if the semantics are similar<br>
+&emsp;&emsp;Add or remove a sentence and compare the similarity, to tell whether it is a semantic boundary<br>
+&emsp;&emsp;Structured information as triples of subject-predicate-object, forming a knowledge graph<br>
+Rule-based chunking is generally used; semantic chunking takes a long time
+
+llamaindex, BGE, milvus
+
 ### Agent
 
 Server tools, or local<br>
+Memory
 
 ReAct: prompt-based, explicitly showing reasoning (thought) + action + observation<br>
 Plan - execute - reflect<br>
 Autonomous loop / AutoGPT: compares the gap between the result and the goal, and dynamically generates new subtasks
+
+openai-agents library<br>
+&emsp;&emsp;Agent, Runner with the responses protocol<br>
+&emsp;&emsp;Model compatibility / through the OpenAI API and the OpenAIModel function<br>
+&emsp;&emsp;For tools you do not have to write the schema<br>
+&emsp;&emsp;as_tool, function_tool, MCP, inner
+
+MCP
+
+langchain / langgraph
 
 ### Engineering and project
 
@@ -1017,8 +1149,25 @@ Backward pass, gradients; the loss has to be scaled up to keep the gradients fro
 Update after the accumulated number of steps<br>
 The Trainer in the transformers library specifies mixed precision
 
+**qwen model**
 
+qwen2.5-0.5/1.5/3/7B -14/32B -72B llama3-8B -70B dense -instruct sft+rl、deepseek v3 671B MoE
+&emsp;&emsp;deepseek-r1-distill-qwen-32B -llama-70B
+qwen3-0.6/1.7/4/8B -14/32B -30B-A3B -235B-A22B -instruct
+&emsp;&emsp;-coder-480B-A35B-instruct
+&emsp;&emsp;-embedding-0.6/4/8B
+&emsp;&emsp;-VL-2/4/8/32B-instruct -30B-A3B-instruct -235B-A22B-instruct
+&emsp;&emsp;-omni-30B-A3B
+&emsp;&emsp;-max close source
+qwen3.5-0.8/2/4/9B -35B-A3B -122B-A10B -397B-A17B -instruct、qwen3.8-27B
 
+**FastAPI**
+
+ijk
+
+**Redis**
+
+ijk
 
 
 
