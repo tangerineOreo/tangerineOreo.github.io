@@ -1151,14 +1151,14 @@ The Trainer in the transformers library specifies mixed precision
 
 **qwen model**
 
-qwen2.5-0.5/1.5/3/7B -14/32B -72B llama3-8B -70B dense -instruct sft+rl、deepseek v3 671B MoE
-&emsp;&emsp;deepseek-r1-distill-qwen-32B -llama-70B
-qwen3-0.6/1.7/4/8B -14/32B -30B-A3B -235B-A22B -instruct
-&emsp;&emsp;-coder-480B-A35B-instruct
-&emsp;&emsp;-embedding-0.6/4/8B
-&emsp;&emsp;-VL-2/4/8/32B-instruct -30B-A3B-instruct -235B-A22B-instruct
-&emsp;&emsp;-omni-30B-A3B
-&emsp;&emsp;-max close source
+qwen2.5-0.5/1.5/3/7B -14/32B -72B llama3-8B -70B dense -instruct sft+rl、deepseek v3 671B MoE<br>
+&emsp;&emsp;deepseek-r1-distill-qwen-32B -llama-70B<br>
+qwen3-0.6/1.7/4/8B -14/32B -30B-A3B -235B-A22B -instruct<br>
+&emsp;&emsp;-coder-480B-A35B-instruct<br>
+&emsp;&emsp;-embedding-0.6/4/8B<br>
+&emsp;&emsp;-VL-2/4/8/32B-instruct -30B-A3B-instruct -235B-A22B-instruct<br>
+&emsp;&emsp;-omni-30B-A3B<br>
+&emsp;&emsp;-max close source<br>
 qwen3.5-0.8/2/4/9B -35B-A3B -122B-A10B -397B-A17B -instruct、qwen3.8-27B
 
 **FastAPI**
