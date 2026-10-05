@@ -345,7 +345,7 @@ Datasets Hugging Face, modelscope
 
 **Implementation notice**
 
-transformers built on PyTorch nn<br>
+transformers<br>
 &emsp;&emsp;PreTrainedModel: the base class inherits from nn.Module, PretrainedConfig: the base class<br>
 &emsp;&emsp;Trainer, TrainingArguments<br>
 &emsp;&emsp;AutoProcessor: a smart input processor / text, image, multimodal, audio; AutoModel: a generic model / the task output module is not loaded<br>
@@ -908,6 +908,19 @@ Structured output<br>
 
 Some models, e.g. reasoning models, do not support function call, json output, generation control
 
+The chat completions protocol<br>
+&emsp;&emsp;message<br>
+&emsp;&emsp;tool is custom, in schema format<br>
+&emsp;&emsp;Executed and added manually<br>
+&emsp;&emsp;Generally compatible across models<br>
+The responses protocol<br>
+&emsp;&emsp;input, instruction<br>
+&emsp;&emsp;The output is items, including message and the intermediate multi-step process: planning, executing, results, reflecting, looping<br>
+&emsp;&emsp;tool: custom + built-in + MCP server; in schema format or by built-in name; built-in web search / file search / code interpreter / computer use<br>
+&emsp;&emsp;Completes the process automatically<br>
+&emsp;&emsp;Some model vendors are not compatible; vLLM and others are not compatible<br>
+The tool schema differs between the two protocols
+
 ### Function call
 
 tools: function call<br>
@@ -925,19 +938,6 @@ Manually add the conversation history to the message<br>
 
 &emsp;&emsp;It is recommended to use the API, or the API service of an inference framework<br>
 function and the arguments / equivalent to rewriting the input, or producing an output
-
-The chat completions protocol<br>
-&emsp;&emsp;message<br>
-&emsp;&emsp;tool is custom, in schema format<br>
-&emsp;&emsp;Executed and added manually<br>
-&emsp;&emsp;Generally compatible across models<br>
-The responses protocol<br>
-&emsp;&emsp;input, instruction<br>
-&emsp;&emsp;The output is items, including message and the intermediate multi-step process: planning, executing, results, reflecting, looping<br>
-&emsp;&emsp;tool: custom + built-in + MCP server; in schema format or by built-in name; built-in web search / file search / code interpreter / computer use<br>
-&emsp;&emsp;Completes the process automatically<br>
-&emsp;&emsp;Some model vendors are not compatible; vLLM and others are not compatible<br>
-The tool schema differs between the two protocols
 
 ### Prompt
 
