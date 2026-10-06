@@ -380,7 +380,7 @@ PreTrainedModel<br>
 
 AutoModel choice / pre-trained model / no task output / base / BertModel<br>
 AutoModelFor / pre-trained model / has a task output module but no input module<br>
-&emsp;&emsp;CausalLM decoder, Seq2SeqLM encoder-decoder, encoder / with task output / others<br>
+&emsp;&emsp;CausalLM decoder, Seq2SeqLM encoder-decoder, others<br>
 <br>
 model(**input): input and output are dicts; pass the dict as arguments or pass the dict in; supports object. / dict[]<br>
 model.generate: autoregressive calls to model() for logits; the output is an ids sequence tensor, optionally a dict with multiple outputs; batch decode afterwards<br>
