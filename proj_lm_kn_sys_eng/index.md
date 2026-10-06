@@ -1063,7 +1063,54 @@ Semantic chunking<br>
 &emsp;&emsp;Structured information as triples of subject-predicate-object, forming a knowledge graph<br>
 Rule-based chunking is generally used; semantic chunking takes a long time
 
-llamaindex, BGE, milvus
+**LlamaIndex**
+
+Components<br>
+&emsp;&emsp;Different data sources: pdf / txt / documents, SQL databases, HTML web pages, audio and video, json<br>
+&emsp;&emsp;Data connectors / converting to text: SimpleDirectoryReader, DatabaseReader, WebPageReader<br>
+&emsp;&emsp;Document processing: splitting, embedding, metadata / tagging with some keywords<br>
+&emsp;&emsp;Adding indexes: VectorStoreIndex, ListIndex, SummaryIndex, KeywordTableIndex, TreeIndex, KnowledgeGraphIndex<br>
+&emsp;&emsp;Storage: redis, chroma, etc.<br>
+&emsp;&emsp;The query engine and the large model
+
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader<br>
+reader = SimpleDirectoryReader — document parsing<br>
+&emsp;&emsp;file_extractor: the parser, optional<br>
+documents = reader.load_data()<br>
+for x in documents — a list<br>
+<br>
+LlamaHub is open source<br>
+LlamaCloud: advanced parsing, api key, free quota + paid<br>
+MinerU, Marker, DeepDoc based on RAGFlow<br>
+<br>
+from llama_index.readers.web import SimpleWebPageReader; the .readers.xxx packages need to be installed<br>
+Or install LlamaHub; core.download_loader() downloads from LlamaHub<br>
+parser = llama_cloud_services.LlamaParse — optionally parses into .md<br>
+&emsp;&emsp;Used in file_extractor
+
+Splitting with a splitter, creating node objects<br>
+from llama_index.core.node_parser import SentenceSplitter<br>
+splitter = SentenceSplitter<br>
+nodes = splitter.get_nodes_from_documents(documents)<br>
+&emsp;&emsp;nodes: json dicts with file attributes, metadata fields, etc.
+
+from llama_index.vector_stores.faiss import FaissVectorStore<br>
+faiss_index = faiss.IndexFlatL2(d) — Euclidean distance, L2 similarity computation<br>
+vector_store = FaissVectorStore(faiss_index)
+
+storage_context = StorageContext.from_defaults(vector_store)<br>
+index = VectorStoreIndex(nodes, storage_context)<br>
+&emsp;&emsp;retriever = index.as_retriever(...) or VectorIndexRetriever(index, ...)<br>
+&emsp;&emsp;&emsp;&emsp;renodes = retriever.retrieve('')<br>
+&emsp;&emsp;engine = RetrieverQueryEngine.from_args(retriever); there is no RetrieverChatEngine<br>
+engine = index.as_query_engine() — internally it also calls as_retriever<br>
+&emsp;&emsp;.as_chat_engine(ChatMemoryBuffer for multi-turn conversation, system prompt)<br>
+response = engine.query / chat('')<br>
+&emsp;&emsp;print(response)<br>
+Streaming output: as_query/chat_engine(stream_response=True), or engine.stream_query / chat<br>
+&emsp;&emsp;for chunk in response.response_gen: print(chunk)
+
+BGE, milvus
 
 ### Agent
 
