@@ -661,6 +661,23 @@ RL<br>
 
 Token-level loss: 1 / total length; sequence-level loss: 1 / sequence length, averaged over the sum of multiple groups
 
+Verifiable rewards<br>
+&emsp;&emsp;Math, code passing the tests, formatted output<br>
+Open-source reward models; using a large model as the reward model<br>
+Preferences scored by a large model, preferences scored by machine learning or by rules, mixed with human scoring, to train the reward model<br>
+<br>
+Training complexity is several times that of SFT: PPO 3-5x or more, DPO / GRPO 1.5-3x; the reward model, the AC (actor-critic) model<br>
+Preference-pair data, data volume 0.1-0.3 of SFT<br>
+<br>
+KL(p,q) relative entropy: summing p * (log p - log q) = the cross entropy of p and q - the entropy of p<br>
+&emsp;&emsp;E_p[log p - log q]<br>
+log_softmax(p) - log_softmax(q)<br>
+Jensen-Shannon<br>
+<br>
+The policy gradient is the expectation over the whole trajectory, or over state-action pairs<br>
+PPO and GRPO are over timesteps or sequence steps<br>
+Essentially both are over the trajectory
+
 Fine-tuning / continued pre-training: pad sentences on the right; RL: pad on the left
 
 **Deepseek R1**
@@ -692,7 +709,50 @@ Dataset for distilling a large model to train a small model<br>
 
 **Implementation of RL**
 
-trl, verl
+tokenizer.pad_to_left<br>
+<br>
+AutoModelForCausalLM, AutoTokenizer<br>
+message<br>
+tokenizer_template(message<br>
+model.to(device), ids_input.to(device)<br>
+model.generate(ids_input)<br>
+tokenizer.batch_decode(ids_output)<br>
+<br>
+datadict = datasets.load_dataset<br>
+Process the data<br>
+<br>
+wandb.ai/site<br>
+import wandb<br>
+wandb.login(key='')<br>
+wandb.init(project='')
+
+GRPO: number of samples 8, a high sampling temperature coefficient<br>
+The format of the final result has to be consistent: 1/2 vs. 0.5<br>
+<br>
+system prompt<br>
+def the rule-based reward function<br>
+<br>
+GRPOConfig(): inference sampling and training, vllm parameters, the RL learning rate 5e-6 is relatively small, 1 epoch<br>
+GRPOTrainer() with reward_funcs
+
+PPO dataset: 2 sft, 4 reward-model, 4 rlhf<br>
+Freeze parameters, learning rate, LoRA<br>
+bf16 mixed precision, accelerate.Accelerator<br>
+<br>
+reward model: the large model / ref model with a linear layer added at the end to output a score<br>
+Can be trained with trl<br>
+<br>
+value model: the large model / ref model with a linear layer added at the end to output a score<br>
+There are other models for this now as well<br>
+Freeze parameters, learning rate, LoRA<br>
+Train two models: the policy and the value model
+
+**verl** suitable for larger-scale scenarios, distributed, each model declared independently<br>
+&emsp;&emsp;ray, vllm<br>
+grpo_config.yaml<br>
+&emsp;&emsp;The algorithm, data-related settings and the reward function, actor, inference, trainer training parameters<br>
+parquet data format<br>
+Reward function definition; trl / verl do not train a reward model
 
 ## Training & Inference Optimization
 
@@ -1090,13 +1150,15 @@ llava.model
 
 Up-to-date information, professional document libraries to reinforce professional standards, enterprise local data<br>
 Requires customization, and has to rely on the model's own answering ability<br>
-<br>
+Reduce hallucination
+
 Document parsing - chunking - vectorization / indexing / storing into the database<br>
 query - embedding - retrieval matching - retrieval results<br>
-The retrieval results serve as the context for generating the answer<br>
-<br>
+The retrieval results serve as the context for generating the answer
+
 Without building a RAG: code, personal knowledge and experience, etc. — lightweight<br>
-Retrieval speed: graph RAG < tree RAG < RAG
+Retrieval speed: graph RAG < tree RAG < RAG<br>
+100 papers, 3000 vectors — a very small amount of data; below 100k vectors the performance difference is negligible
 
 Chunking effectiveness<br>
 &emsp;&emsp;Affects semantic completeness<br>
@@ -1165,7 +1227,73 @@ Streaming output: as_query/chat_engine(stream_response=True), or engine.stream_q
 
 **BGE Milvus**
 
-ijk
+LlamaIndex / LlamaCloud for parsing, LlamaIndex for chunking, BGE for vectorization, Milvus as the database<br>
+&emsp;&emsp;BGE in LlamaIndex gives only dense vectors / BGE in pymilvus / essentially the official BGE<br>
+&emsp;&emsp;bm25 with Milvus in LlamaIndex / more hybrid retrieval with pymilvus / the parameters are not compatible but the client can be shared<br>
+Hybrid retrieval: term-frequency sparse; semantic sentence vectors with term importance, sparse; semantic sentence vectors, dense; semantic word vectors, Multi-vector<br>
+<br>
+Define a function to chunk the parsed markdown document — courseware<br>
+&emsp;&emsp;Split paragraphs by line breaks, detect the start of a markdown table, detect level-1 / 2 / 3 / 4 headings<br>
+&emsp;&emsp;chunks.append<br>
+The chunk size in LlamaIndex is counted in characters, while the embedding model counts tokens: Chinese 1.5-2 characters/token, English 4 characters/token<br>
+<br>
+pip install pymilvus[model]<br>
+milvus.io/docs/zh<br>
+<br>
+Download BAAI/bge-m3 locally with the huggingface_hub library or from the web page, or import the official package and let it be cached automatically on the system at runtime<br>
+from milvus_model.hybrid import BGEM3EmbeddingFunction<br>
+model = BGEM3EmbeddingFunction(path, device) loads the model<br>
+chunks_embedding = model(chunks) gives sparse and dense vectors; chunks is the list of vectors
+
+Connecting to Milvus, the format template for creating a collection<br>
+from pymilvus import Collection, FieldSchema, CollectionSchema, DataType, Function / BM25, etc.<br>
+&emsp;&emsp;MilvusClient(uri=path or the api url)<br>
+&emsp;&emsp;&emsp;&emsp;'./milvus.db'<br>
+&emsp;&emsp;fields = [FieldSchema(name='id or pk/text/vector/dense_vector/sparse_vector', data type, other arguments),]<br>
+&emsp;&emsp;schema = CollectionSchema(fields=fields<br>
+&emsp;&emsp;collection_name = ''<br>
+&emsp;&emsp;co = Collection(name=collection_name, schema=schema)
+
+Add the index before inserting the data, to save the cost of rebuilding it<br>
+index_params = {'index_type':'', 'metric_type':''}<br>
+&emsp;&emsp;index_type: generally HNSW; when index_type=AUTOINDEX it is chosen automatically; for sparse it is SPARSE_INVERTED_INDEX<br>
+&emsp;&emsp;metric_type: the similarity computation — BM25 for term frequency, COSINE, L2, IP<br>
+&emsp;&emsp;&emsp;&emsp;They are not the same; there are also different processing steps and structures, such as normalization<br>
+&emsp;&emsp;&emsp;&emsp;For sparse: BGE-M3 uses IP, BM25 uses BM25; cosine is not supported and is meaningless, and L2 has the cost of computing over the dimensions with 0 values<br>
+co.create_index(field_name='vector/dense_vector/sparse_vector', index_params)<br>
+co.load() into memory; persistent storage is not json / list but binary files<br>
+<br>
+Adding the data in batches, several chunks per batch<br>
+datachunks = [the field order in the template]<br>
+co.insert(datachunks)
+
+query_embedding = model(query)<br>
+&emsp;&emsp;query_embedding['dense'][0] — the query vector in the list<br>
+&emsp;&emsp;query_embedding['sparse'][0] — the query rows of the matrix<br>
+Retrieving the text<br>
+dense/sparse_results = collection.search( — in the new version, client.search<br>
+&emsp;&emsp;data=query_embeddings['dense'],<br>
+&emsp;&emsp;anns_field='dense_vector',<br>
+&emsp;&emsp;param={'metric_type':''},<br>
+&emsp;&emsp;limit=10 — top-k,<br>
+&emsp;&emsp;output_fields=['text',...] — the field names to be returned<br>
+)<br>
+dense/sparse_requests = AnnSearchRequest(the same as above) — the request<br>
+results = collection.hybrid_search([dense, sparse_requests], rerank, limit=10, output_fields)<br>
+&emsp;&emsp;rerank = RRFRanker() with k=60, or WeightedRanker(0.5, 0.5) — re-ranking by weighted similarity scores<br>
+Or concatenate the question and the result, and re-rank by the attention CLS score — a client feature, a model at a local path, reranker(query, documents)<br>
+<br>
+for ... in results — the list of results for each query<br>
+&emsp;&emsp;results[i] — the top-k list<br>
+&emsp;&emsp;results[i][j] — the (i+1)-th result<br>
+<br>
+Concatenating the results, with the citation marker [1]<br>
+res = res + f'[{number}] {result text}\n'<br>
+<br>
+prompt = f'...{system prompt}...{formatted_references}...{query}...'<br>
+Give it to the large model<br>
+<br>
+Encapsulation and modularization
 
 ### Agent
 
@@ -1218,7 +1346,48 @@ If it does not pass, reason it out, with multiple subtasks; if it passes, do not
 
 **MCP**
 
-ijk
+MCP does not specify the interaction with the large model / the interaction between the host and the large model<br>
+It is the format required by the large model api, with messages<br>
+The host relays the messages, carrying role system with the detailed documentation, the tool list, and the output requirements<br>
+role user: the question and the information about the files in the current environment<br>
+react
+
+The MCP host and server establish a handshake, two-way communication, the available tools and their descriptions: the function names / arguments / docstrings extracted by mcp.tool()<br>
+A server includes multiple tools<br>
+<br>
+Setting up the large model api in Cline<br>
+Add or configure an MCP server: the large model chat, the marketplace, configure in json format<br>
+transport type: stdio / streaming output, streamable http<br>
+command: uvx for the official ones online / uv for a local project / npx / python, etc.<br>
+&emsp;&emsp;Cline may not know the path; use which uv / python to get the absolute path<br>
+args: the run arguments / a .py local project, or online mcp.so, mcpmarket.com, etc.<br>
+<br>
+Defining the server and the tools<br>
+Install uv; uv add for the mcp dependencies, cli, httpx; and uv pip install<br>
+mcp = mcp.server.fastmcp<br>
+Some definitions<br>
+&emsp;&emsp;The target url of the request, the user's identifier, the request-receiving function and the formatting function, etc.<br>
+mcp.tool() def with a docstring<br>
+<br>
+mcp.run() starts the server<br>
+<br>
+Defining the host<br>
+Import mcp.client.session, .streamable_http, .stdio<br>
+&emsp;&emsp;Define a class to integrate the LLM and the host<br>
+&emsp;&emsp;&emsp;&emsp;Initialize the model api<br>
+&emsp;&emsp;&emsp;&emsp;async def functions<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;server_params with args=[mcp_server.py]<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;x = session.list_tools() with client and server_params<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;for ... in x.tools: the openai tool dict template with x.name, x.description, parameters<br>
+&emsp;&emsp;&emsp;&emsp;def a system prompt function<br>
+&emsp;&emsp;&emsp;&emsp;async def tool call<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;await session.call_tool(tool name and arguments)<br>
+&emsp;&emsp;&emsp;&emsp;def message<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;openai api<br>
+The official MCP .client only handles communication; the model and the logic have to be written by yourself<br>
+langchain-mcp has already wrapped it all up<br>
+<br>
+Choosing tools intelligently: the docstrings of the tool definitions, the system prompt, and fine-tuning again on function call<br>
 
 **A2A**
 
@@ -1241,10 +1410,6 @@ ijk
 ijk
 
 **Multi-agent**
-
-ijk
-
-**Harness**
 
 ijk
 
@@ -1272,6 +1437,18 @@ LangServe: deployment, providing an api<br>
 LangGraph Studio: web-based visualization, started from the CLI<br>
 <br>
 Each package is installed separately with pip
+
+**Harness**
+
+ijk
+
+**Deepseek harness**
+
+ijk
+
+**IDE**
+
+ijk
 
 ### Engineering and project
 
@@ -1370,7 +1547,7 @@ qwen3.5-0.8/2/4/9B -35B-A3B -122B-A10B -397B-A17B -instruct、qwen3.8-27B
 
 **FastAPI**
 
-User tables, usage statistics, automatic switching to a backup model, and other product-level functions<br>
+&emsp;&emsp;User tables, usage statistics, automatic switching to a backup model, and other product-level functions<br>
 &emsp;&emsp;Natively asynchronous<br>
 <br>
 pip packages to install<br>
@@ -1414,9 +1591,55 @@ app.include_router<br>
 <br>
 Testing urls with the Postman software
 
-**Redis**
+**Redis** remote dictionary derver<br>
+&emsp;&emsp;An in-memory key-value database with fast response and high-speed caching<br>
+Stores context and session states
+
+**multilingual**
+
+SFT with Chinese and English data<br>
+&emsp;&emsp;A small amount, <1 / 3 / 5%, of cross-language mixed samples<br>
+&emsp;&emsp;At inference, the system prompt keeps proper nouns or terms with bilingual annotations<br>
+RAG retrieval with Chinese and English data<br>
+&emsp;&emsp;A multilingual embedding model<br>
+&emsp;&emsp;The second-best alternative: the system prompt translates Chinese/English into English/Chinese; retrieving separately in each language and merging the results is better than concatenated retrieval<br>
+<br>
+Cross-language ability depends on the large model
+
+**PageIndex** vector-free reasoning RAG
+
+A tree index / metadata with the structure, hierarchy, and content summaries; the large model reasons over the retrieval to locate the pages, maps them back to the original text, and generates the answer from the original text and the question<br>
+&emsp;&emsp;No chunking, embedding, or vector retrieval needed<br>
+<br>
+PageIndexClient() — the cloud, or the model api<br>
+&emsp;&emsp;pdf, storage_path<br>
+&emsp;&emsp;get_tree summary text, get_page_content<br>
+pageindex on github<br>
+&emsp;&emsp;page_index_md.py, md_to_tree
+
+**Mineru** gpu cli<br>
+txt mode does not need a language to be specified, ocr mode does; the default auto chooses txt/ocr automatically<br>
+pipeline, hybrid-medium/high, vlm
+
+**Engineering**
 
 ijk
+
+**Project**
+
+datapipeline
+
+model, device
+
+SFT, inference
+
+index
+
+retrieve
+
+agent flow
+
+input/output optimization
 
 
 
