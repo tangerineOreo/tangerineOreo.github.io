@@ -1369,7 +1369,7 @@ uvicorn.run('main:app', host, port, reload), or fastapi dev, or uvicorn main:app
 &emsp;&emsp;The server terminal<br>
 &emsp;&emsp;Going to localhost:8000 shows the returned part<br>
 &emsp;&emsp;localhost:8000/docs: the generated api documentation<br>
-The client terminal: a request with curl https://localhost:8000/abc<br>
+The client terminal: a request with curl https localhost:8000/abc<br>
 <br>
 Passing parameters via the url<br>
 &emsp;&emsp;url/1: @app.get('/{item_id}') async def f3(item_id)<br>
