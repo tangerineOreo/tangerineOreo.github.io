@@ -888,7 +888,52 @@ An enterprise-verified domain name; users use the url directly
 
 **Concurrency**
 
-ijk
+The number of requests being executed at the same moment<br>
+&emsp;&emsp;Average requests per second * the average response time per request<br>
+Layers<br>
+&emsp;&emsp;The API gateway: the traffic entry point<br>
+&emsp;&emsp;Load balancing: distributing the traffic to thousands of GPU nodes / each node has multiple GPUs<br>
+&emsp;&emsp;The inference layer: quantization / FlashAttention / KV cache with PagedAttention / continuous batching / prefill-decode separation<br>
+Concurrency estimation and stress testing<br>
+The vLLM api and concurrency parameter settings<br>
+Adding a layer of nginx in front / concurrency limiting and messaging / encryption / distribution<br>
+<br>
+Stress testing<br>
+TTFT, TPOT, throughput, concurrency, completion rate / number completed over the total number of requests<br>
+Input patterns<br>
+&emsp;&emsp;A fixed number of requests / like continuous batching, always keeping a fixed number of requests in flight; gradual ramp-up of the load<br>
+&emsp;&emsp;A fixed rate / e.g. 100 requests per second<br>
+&emsp;&emsp;Combinations of input and output lengths<br>
+Tools<br>
+&emsp;&emsp;vLLM: random / ShareGPT conversation records / sonnet long text / BurstGPT traffic spikes, and other datasets<br>
+&emsp;&emsp;evalscope perf: random / the openqa dataset<br>
+&emsp;&emsp;python locust<br>
+<br>
+Stress testing a function<br>
+&emsp;&emsp;from locust import HttpUser, User, task, between<br>
+&emsp;&emsp;class MyFunctionUser(User):<br>
+&emsp;&emsp;wait_time = between(1, 3)<br>
+&emsp;&emsp;@task<br>
+&emsp;&emsp;def call_my_function(self):<br>
+&emsp;&emsp;Test with fixed inputs<br>
+VLLM stress-tests the OpenAI-compatible api over http; it cannot stress-test a function<br>
+Stress-testing a model and stress-testing a function differ a lot in timing: retrieval, the agent flow, tool-calling time, the number of model calls<br>
+<br>
+Related factors<br>
+&emsp;&emsp;Inference: prefill and decode / data, devices, algorithms<br>
+&emsp;&emsp;Memory size, data movement / bandwidth, compute<br>
+&emsp;&emsp;Data volume: input and output length, number of inputs, throughput / data movement / weights and data<br>
+&emsp;&emsp;Algorithm optimization: quantization / FlashAttention / KV cache with PagedAttention / continuous batching / prefill-decode separation / caching for identical prefixes<br>
+&emsp;&emsp;Streaming output<br>
+&emsp;&emsp;RAG retrieval, the agent flow<br>
+<br>
+Caculation: number of requests and time<br>
+&emsp;&emsp;Requirements: 500 * average online ratio 0.2-0.4; average daily requests 5/24; peak hourly requests 6/3600s; response time 5 or 10 s<br>
+&emsp;&emsp;Memory: kv cache = official / vllm 0.9 * RTX 4090 - model weights, quantized, and the shared vocabulary<br>
+&emsp;&emsp;Max concurrency = number of kv tokens / average tokens per request; number of kv tokens = kv cache / memory per token<br>
+&emsp;&emsp;1 token * 2 (kv) * 36 layers * 1024 total dim * 2 Bytes = 144KB<br>
+&emsp;&emsp;Context 1024-8192 / 32k tokens; concurrency 120-15 / 4<br>
+&emsp;&emsp;Stress test: concurrency 60, TTFT = 5 s
 
 ### API
 
@@ -1063,6 +1108,14 @@ Semantic chunking<br>
 &emsp;&emsp;Structured information as triples of subject-predicate-object, forming a knowledge graph<br>
 Rule-based chunking is generally used; semantic chunking takes a long time
 
+The role of metadata: fast filtering by time, url, keywords<br>
+Vector databases: nearest-neighbor clustering, quickly locating a similar region, which makes retrieval easier<br>
+Normalized dot product for high-concurrency RAG scenarios; Euclidean distance similarity for non-text scenarios<br>
+Indexes<br>
+&emsp;&emsp;HNSW: hierarchical navigable small world<br>
+&emsp;&emsp;IVF: clustering in high-dimensional space, k-means clusters<br>
+&emsp;&emsp;PQ
+
 **LlamaIndex**
 
 Components<br>
@@ -1110,7 +1163,9 @@ response = engine.query / chat('')<br>
 Streaming output: as_query/chat_engine(stream_response=True), or engine.stream_query / chat<br>
 &emsp;&emsp;for chunk in response.response_gen: print(chunk)
 
-BGE, milvus
+**BGE Milvus**
+
+ijk
 
 ### Agent
 
@@ -1121,15 +1176,74 @@ ReAct: prompt-based, explicitly showing reasoning (thought) + action + observati
 Plan - execute - reflect<br>
 Autonomous loop / AutoGPT: compares the gap between the result and the goal, and dynamically generates new subtasks
 
+Calling different functions according to the input: routing, intent recognition<br>
+&emsp;&emsp;function call: built in by default, with arguments<br>
+&emsp;&emsp;Keyword semantic routing: traditional intent recognition<br>
+&emsp;&emsp;Judged by a small LLM, with a well-written system prompt specifying the output; similar to one of the flows of function call
+
 openai-agents library<br>
 &emsp;&emsp;Agent, Runner with the responses protocol<br>
 &emsp;&emsp;Model compatibility / through the OpenAI API and the OpenAIModel function<br>
 &emsp;&emsp;For tools you do not have to write the schema<br>
 &emsp;&emsp;as_tool, function_tool, MCP, inner
 
-MCP
+**Implementation**
 
-langchain / langgraph
+The plan module<br>
+system prompt1<br>
+&emsp;&emsp;cot: analyze the question, decide which queries to use based on the information already available in order to get more of the information needed, and break the question down or extend it to obtain comprehensive information<br>
+&emsp;&emsp;The available tools<br>
+&emsp;&emsp;Output format, examples: multiple subtasks with tool names<br>
+system prompt1 + memory + query = prompt1<br>
+The list of subtasks and tool names = model(prompt1)<br>
+<br>
+The execution module<br>
+if tool_name<br>
+&emsp;&emsp;result = rag or websearch(subtask prompt)<br>
+&emsp;&emsp;Add to memory<br>
+<br>
+Summarize and output<br>
+Add the memory message<br>
+system prompt2 + memory + query = prompt2<br>
+<br>
+Encapsulation<br>
+<br>
+Real memory has to consider refresh, summarization or conversion<br>
+If it is mcp / an external tool call, state the requirements — the prompt on the large model side<br>
+<br>
+The reflection module<br>
+Evaluate the quality after the execution results are returned<br>
+system prompt3<br>
+If it does not pass, reason it out, with multiple subtasks; if it passes, do nothing and return empty, then summarize and output
+
+**MCP**
+
+ijk
+
+**LangChain / LangGraph**
+
+LangChain for real-world applications; langchain-core for the core abstract definitions<br>
+&emsp;&emsp;model components<br>
+&emsp;&emsp;prompt engineering components: prompt templates, output parsing<br>
+&emsp;&emsp;chains: pipelines connecting the components / programming with LCEL, the LangChain Expression Language: prompt | model | output_parser<br>
+&emsp;&emsp;memory components: conversation history, summary memory, and other modes<br>
+&emsp;&emsp;retrievers components: RAG<br>
+&emsp;&emsp;agents components: tool calling, execution order<br>
+LangGraph state graph<br>
+&emsp;&emsp;node, edge, state<br>
+&emsp;&emsp;checkpoint<br>
+&emsp;&emsp;loops<br>
+&emsp;&emsp;multi-agent collaboration / a planning agent and an execution agent<br>
+&emsp;&emsp;state persistence / time travel<br>
+LangSmith<br>
+&emsp;&emsp;tracing: records the complete steps, the full chain<br>
+&emsp;&emsp;monitoring: request volume, token consumption, error rate<br>
+&emsp;&emsp;evaluation: datasets + LLM judge + comparing the old and new versions<br>
+&emsp;&emsp;prompt management<br>
+LangServe: deployment, providing an api<br>
+LangGraph Studio: web-based visualization, started from the CLI<br>
+<br>
+Each package is installed separately with pip
 
 ### Engineering and project
 
@@ -1196,6 +1310,24 @@ Backward pass, gradients; the loss has to be scaled up to keep the gradients fro
 Update after the accumulated number of steps<br>
 The Trainer in the transformers library specifies mixed precision
 
+r'' does not interpret escape characters<br>
+await can only be used in async def functions, async with/for, cannot appear in normal functions, with/for<br>
+&emsp;&emsp;When calling asynchronous functions or methods, await must be used<br>
+<br>
+When N(0,1), to prevent division by zero, add an epsilon to the denominator<br>
+<br>
+Move the project to another location to run, manually connect to network or package everything with docker<br>
+If only interface/api is needed, use fastapi<br>
+<br>
+Relative paths in the project<br>
+.gitignore file<br>
+&emsp;&emsp;xxx/.venv/, xxx/_ pycache _/, *.pyc suffix, *.log<br>
+pip freeze > requirements.txt<br>
+uv integrated to replace multiple package managers / install pip install / project management pdm pyproject.toml / virtual environment venv / run scripts<br>
+The project folder is independent of the virtual environment, but it is best to place it under the project folder and bind it with the project<br>
+uv sync automatically reads pyproject.toml, creates a virtual environment, and installs all dependencies<br>
+uv run
+
 **qwen model**
 
 qwen2.5-0.5/1.5/3/7B -14/32B -72B llama3-8B -70B dense -instruct sft+rl、deepseek v3 671B MoE<br>
@@ -1210,7 +1342,49 @@ qwen3.5-0.8/2/4/9B -35B-A3B -122B-A10B -397B-A17B -instruct、qwen3.8-27B
 
 **FastAPI**
 
-ijk
+User tables, usage statistics, automatic switching to a backup model, and other product-level functions<br>
+&emsp;&emsp;Natively asynchronous<br>
+<br>
+pip packages to install<br>
+fastapi; the web application server uvicorn[standard]<br>
+pydantic<br>
+pytest for testing<br>
+httpx: the modern successor to requests<br>
+Web development<br>
+&emsp;&emsp;python-multipart for handling file uploads and form data, passlib[bcrypt] for password hashing, PyJWT / authlib / fastapi-jwt-auth<br>
+<br>
+AsyncOpenAI<br>
+<br>
+app = FastAPI(), optional arguments title, description, version<br>
+class b(pydantic.BaseModel):<br>
+&emsp;&emsp;text: str — the annotated type is validated by pydantic; a value may or may not be assigned; instantiation requires a value<br>
+@app.get('/' or '/abc') is read-only; @app.post is for creating, submitting, write operations, and the request body<br>
+async def f0(x):<br>
+&emsp;&emsp;Operate on x<br>
+&emsp;&emsp;await to call a function<br>
+&emsp;&emsp;Using AsyncOpenAI, etc.<br>
+&emsp;&emsp;return a, return {'text': x.text}<br>
+<br>
+uvicorn.run('main:app', host, port, reload), or fastapi dev, or uvicorn main:app --reload<br>
+&emsp;&emsp;The server terminal<br>
+&emsp;&emsp;Going to localhost:8000 shows the returned part<br>
+&emsp;&emsp;localhost:8000/docs: the generated api documentation<br>
+The client terminal: a request with curl https://localhost:8000/abc<br>
+<br>
+Passing parameters via the url<br>
+&emsp;&emsp;url/1: @app.get('/{item_id}') async def f3(item_id)<br>
+&emsp;&emsp;The key-value params in Postman, url/?a=1&b=2: @app.get('/') async def f3(a, b)<br>
+Passing parameters in the request body<br>
+&emsp;&emsp;response = httpx.post(url, json), or on the command line curl \ \<br>
+<br>
+router = APIRouter() for grouped development<br>
+@router.get<br>
+app.include_router<br>
+<br>
+&emsp;&emsp;app.put to update parameters, app.delete<br>
+&emsp;&emsp;app.middleware('http'): unified middleware for requests — logging, authentication, rate limiting, etc.<br>
+<br>
+Testing urls with the Postman software
 
 **Redis**
 
