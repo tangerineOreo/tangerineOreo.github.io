@@ -1220,6 +1220,34 @@ If it does not pass, reason it out, with multiple subtasks; if it passes, do not
 
 ijk
 
+**A2A**
+
+ijk
+
+**Agent skill**
+
+ijk
+
+**Context and memory**
+
+ijk
+
+**Verified reward and Agentic RL**
+
+ijk
+
+**Self-evoluation**
+
+ijk
+
+**Multi-agent**
+
+ijk
+
+**Harness**
+
+ijk
+
 **LangChain / LangGraph**
 
 LangChain for real-world applications; langchain-core for the core abstract definitions<br>
