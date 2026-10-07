@@ -1391,27 +1391,102 @@ Choosing tools intelligently: the docstrings of the tool definitions, the system
 
 **A2A**
 
-ijk
+The agent is started as an http service; with http + json the language can be ignored<br>
+&emsp;&emsp;url<br>
+/.well-known/agent.json: the agent card — the input and output schemas, name, description, skills, url<br>
+The jsonrpc request and the response correspond by id<br>
+config, message / context, artifact, history / context<br>
+The user, the platform sending and receiving on their behalf, the scheduling agent, the weather agent<br>
+&emsp;&emsp;A2A when adding / registering: add the agent url, the platform requests the weather agent and gets the card back, and afterwards it is between the platform and the scheduling agent<br>
+&emsp;&emsp;A2A when in use: the scheduling agent and the weather agent
 
 **Agent skill**
 
-ijk
+Skill encapsulation<br>
+The name and the function description, input parameters validated with a json schema, the execution logic, structured output with status codes and bug information<br>
+&emsp;&emsp;The various tools (functions, APIs, web access, RAG, etc.), examples and prompts, safe handling of errors and failures<br>
+<br>
+The list of skill metadata is given to the large model, which selects a skill; the skill.md is then given to the large model<br>
+Skills are nested progressively: the prompt describes in which scenarios to use the other .md, .py, etc.
 
 **Context and memory**
 
-ijk
+Layered memory, context engineering<br>
+<br>
+Large models are stateless and do not add information on their own; context length limits; irrelevant information; token cost<br>
+<br>
+Context to memory, memory to context<br>
+&emsp;&emsp;Current, day-level memory, history<br>
+&emsp;&emsp;Core memory as static context; skill memory / workflow file directories loaded progressively<br>
+&emsp;&emsp;RAG as dynamic context<br>
+Summarizing and compressing the context<br>
+Continuous prefix caching
 
 **Verified reward and Agentic RL**
 
-ijk
+ground truth / objective results / verifiable / with the correctness of the result there is no need to train a reward model — rule-based rewards<br>
+&emsp;&emsp;Math, code, whether the test cases pass, whether the API call returns a response, whether the task is finally completed, environment state verification, etc.<br>
+RLVR, RLHF<br>
+<br>
+RLHF: text generation conforms, a single sequence<br>
+agentic RL: agent abilities / tools and results, multiple sequences<br>
+Cold start: train up to the passing line, using the existing SFT data<br>
+&emsp;&emsp;[System Prompt, User Task, Thought_1-n, Action_1-n, Obs_1-n, final_answer]<br>
+&emsp;&emsp;Train on the intermediate process and the final answer; the observation is returned by the environment rather than output by the model, so it is usually not included in the loss<br>
+&emsp;&emsp;Data mixture: successful data 60-70, error-correction data 15-20, general conversation data 5-10<br>
+GRPO on interaction data<br>
+&emsp;&emsp;Trajectories over multiple sequences; rule-based milestone rewards on the intermediate results<br>
+<br>
+&emsp;&emsp;&emsp;&emsp;llm-as-judge is slower and more expensive, generally used offline
 
 **Self-evoluation**
 
-ijk
+Automatic improvement, so that the execution gets better<br>
+&emsp;&emsp;L1: the memory / experience layer, the memory skill<br>
+&emsp;&emsp;L2: the system prompt<br>
+&emsp;&emsp;L3: the code / functions / configurations themselves, the model parameters<br>
+<br>
+Observing the full task trajectory and the metrics<br>
+Evaluation: scoring with verifiable signals<br>
+Analyzing the failures<br>
+Generating improvement candidates: memory / skill / prompt<br>
+Held-out regression testing: accepted only when it meets the bar, above the baseline / a 95% completion rate<br>
+Save + log<br>
+<br>
+Failures are always written into memory; successes are written selectively / a high score and many steps<br>
+&emsp;&emsp;Deduplication, decay / periodic cleanup of the low-frequency and low-success-rate ones, organizing and merging<br>
+The failure-analysis reflection prompt: written comprehensively and specifically<br>
+&emsp;&emsp;Pass in the task, the trace, the final result, the evaluator output<br>
+&emsp;&emsp;Analyze the deviations, causes and examples, reusable rules and anti-rules<br>
+<br>
+Trigger conditions<br>
+Every conversation, after a session / task ends, after a long time without conversation, triggered by a failure or error, periodically every 50 tasks / organized at regular intervals
 
 **Multi-agent**
 
-ijk
+You can use one model, or multiple models<br>
+<br>
+LangGraph: a directed-graph state machine, explicit, with conditional branches, loops, and parallelism; the operations are the edges and nodes of the graph; evaluation with LangSmith<br>
+Microsoft AutoGen: conversation between agents, implicit / driven by the prompt and the history<br>
+CrewAI: already encapsulated; define the roles, tasks, and processes, and the framework handles the rest automatically<br>
+Alibaba AgentScope: distributed actor agents and a message bus<br>
+OpenAI Swarm: an agent is a function, returning a function<br>
+MetaGPT: the standardized procedures of a software company written into the framework<br>
+<br>
+Multi-agent interaction and communication: sending messages (AutoGen conversations), shared state (the LangGraph state graph), function calls / encapsulated tool calls, event-driven<br>
+Multiple agents in the same framework have a native communication mechanism<br>
+When agents involve different frameworks, the A2A protocol works between agents of any frameworks
+
+**Architecture** / topology: orchestrator-worker, pipeline, swarm, hierarchical, blackboard<br>
+**Paradigms**: react, planning, reflection<br>
+**Communication mechanisms, control strategies**: fork and parallelism, routing, interaction and communication, feedback / different from active reflection, supervisor, voting<br>
+**Frameworks** / used to build agents: LangGraph, AutoGen, CrewAI, AgentScope, MetaGPT<br>
+&emsp;&emsp;workflow.add_edge()
+
+The simplest: a planner, a generator, and an evaluator collaborating with multiple rounds of evaluation
+
+agents.md, the directory structure, progressively, the various .md files<br>
+Components or files other than .md
 
 **LangChain / LangGraph**
 
@@ -1440,15 +1515,52 @@ Each package is installed separately with pip
 
 **Harness**
 
-ijk
+Beyond the model<br>
+Constraints, logging, validation, state recovery<br>
+&emsp;&emsp;Tools: argument validation, retry on failure<br>
+&emsp;&emsp;Context / memory management<br>
+&emsp;&emsp;The workflow<br>
+&emsp;&emsp;Trajectories, state, cost, failures<br>
+&emsp;&emsp;Security<br>
+&emsp;&emsp;sandbox, permissions, audit and oversight<br>
+<br>
+The requirements list<br>
+Complete only one requirement at a time<br>
+<br>
+Environments for evaluating a model or an agent: lm-eval, OpenCompass, SWE-bench harness, AgentBench<br>
+&emsp;&emsp;The lm-eval and OpenCompass environments have multiple dataset benchmarks<br>
+&emsp;&emsp;SWE-bench harness is an environment-interaction benchmark; SWE-bench provides the environment<br>
+&emsp;&emsp;The AgentBench environment has multiple environment-interaction benchmarks, and the benchmarks themselves are environments<br>
+<br>
+rubric: the task is completed and the result is correct; the intermediate process and results; efficiency / number of steps / token consumption / time; the accuracy of recognition and invocation
 
 **Deepseek harness**
 
-ijk
+turn, step, loop, and scheduling<br>
+&emsp;&emsp;Cancellation, jumping the queue, the file system, shell, permissions, persistence<br>
+Context<br>
+Tool execution<br>
+&emsp;&emsp;Allow / deny / ask before execution, sandbox, timeout, checking the result<br>
+An append-only event log<br>
+&emsp;&emsp;Which turn, which step requested the model, the model configuration, the tool arguments and results, recovery / fork branches<br>
+Security<br>
+Extensibility<br>
+&emsp;&emsp;Extending with new capabilities without affecting the core<br>
+Multi-agent design
 
 **IDE**
 
-ijk
+Information automatically added to the system prompt every time<br>
+&emsp;&emsp;System environment information, the project root directory, the file tree structure, the currently active file, the contents of the must-read files, etc.<br>
+More messages in the flow; the system prompt is added every round, which differs from function call<br>
+&emsp;&emsp;system prompt - user - assistant, the model generates or calls - tool result - generates again - system prompt - user - assistant<br>
+Dynamic perception: actively calling functions/tools and getting the results back, either judged by the large model or event-driven<br>
+&emsp;&emsp;Not at the start of a Q&A; actively call to read the system environment information, the project root directory, the file tree structure<br>
+&emsp;&emsp;Read a certain file<br>
+&emsp;&emsp;Run a file and return the result<br>
+The whole project is not fed into the large model; the IDE runs RAG embedding or an abstract syntax tree over the project<br>
+The diff view before and after the change<br>
+&emsp;&emsp;The user's approval or rejection is returned to the large model as an execution result, similar to a function / tool call
 
 ### Engineering and project
 
@@ -1623,7 +1735,31 @@ pipeline, hybrid-medium/high, vlm
 
 **Engineering**
 
-ijk
+RAG, prompt, simple fine-tuning
+
+Batch tasks, continuous batch processing, asynchronous<br>
+Response lag, prefill TTFT, decode TPOT/ITL, inference optimization<br>
+Prompt cache
+
+Cost
+
+Failure, paradigm, mechanism and strategy, workflow<br>
+&emsp;&emsp;Planning/intent recognition, tool calling, communication, context loss, loop, content deviation/hallucination/task completion<br>
+API timeout/JSON format validation/fault tolerance, context management, state persistence, step-by-step reflection and verification, degradation, loop count, completion verification
+
+Harness<br>
+Multi-agent, division of labor, communication<br>
+Evaluation, quantitative metrics<br>
+&emsp;&emsp;Rubrics<br>
+Self-evolution, bonus items<br>
+&emsp;&emsp;Bad case
+
+Hot context: currently focused content, the latest tool return, added to prompt<br>
+Structured task state: state fields stored in database replace putting into context<br>
+Cold data archiving: trace, failure records, not included in prompt by default<br>
+&emsp;&emsp;Trace, parameter passing, log troubleshooting<br>
+&emsp;&emsp;Filter by metadata, retrieve on demand<br>
+Loop detector for dead loop detection, 90s asynchronous timeout, exception converted to tool string for fault tolerance
 
 **Project**
 
