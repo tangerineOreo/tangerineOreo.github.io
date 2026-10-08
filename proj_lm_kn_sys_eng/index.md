@@ -1464,7 +1464,7 @@ Every conversation, after a session / task ends, after a long time without conve
 
 **Multi-agent**
 
-You can use one model, or multiple models<br>
+can use one model, or multiple models<br>
 <br>
 LangGraph: a directed-graph state machine, explicit, with conditional branches, loops, and parallelism; the operations are the edges and nodes of the graph; evaluation with LangSmith<br>
 Microsoft AutoGen: conversation between agents, implicit / driven by the prompt and the history<br>
