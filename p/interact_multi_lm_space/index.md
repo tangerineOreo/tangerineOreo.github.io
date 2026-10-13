@@ -16,7 +16,7 @@ title: Paper
 
 
 <iframe 
-  src="../pdfinfra.pdf" 
+  src="../interactions_of_multiple_large_models_in_representation_space.pdf" 
   width="100%" 
   height="600px"
   frameborder="0">
